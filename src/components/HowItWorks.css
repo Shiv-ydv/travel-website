@@ -1,0 +1,396 @@
+/* =========================================
+   HOW IT WORKS
+========================================= */
+
+.how-section {
+    padding: 130px 0;
+
+    background: #ffffff;
+}
+
+.how-container {
+    width: min(1280px, calc(100% - 70px));
+
+    margin: auto;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.how-header {
+    display: grid;
+
+    grid-template-columns: 0.8fr 1.4fr 0.8fr;
+
+    align-items: end;
+
+    gap: 40px;
+
+    margin-bottom: 75px;
+}
+
+.how-label {
+    align-self: start;
+
+    color: #a27a45;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 3px;
+}
+
+.how-header h2 {
+    margin: 0;
+
+    color: #17231f;
+
+    font-family: "Playfair Display", serif;
+
+    font-size: clamp(45px, 5vw, 68px);
+
+    font-weight: 500;
+
+    line-height: 1.02;
+
+    letter-spacing: -2px;
+}
+
+.how-header h2 em {
+    color: #a27a45;
+
+    font-weight: 400;
+}
+
+.how-header p {
+    margin: 0;
+
+    color: #68716d;
+
+    font-size: 12px;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================
+   STEPS
+========================================= */
+
+.steps-wrapper {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 0;
+
+    border-top: 1px solid #dedbd2;
+
+    border-bottom: 1px solid #dedbd2;
+}
+
+
+/* =========================================
+   STEP
+========================================= */
+
+.step {
+    position: relative;
+
+    min-height: 310px;
+
+    padding: 35px 40px;
+
+    border-right: 1px solid #dedbd2;
+}
+
+.step:first-child {
+    padding-left: 0;
+}
+
+.step:last-child {
+    border-right: none;
+
+    padding-right: 0;
+}
+
+
+/* =========================================
+   TOP
+========================================= */
+
+.step-top {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 55px;
+}
+
+.step-number {
+    color: #a8aaa5;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    letter-spacing: 1px;
+}
+
+
+/* =========================================
+   ICON
+========================================= */
+
+.step-icon {
+    width: 58px;
+    height: 58px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #d5c5a8;
+
+    border-radius: 50%;
+
+    color: #a27a45;
+
+    transition: 0.4s ease;
+}
+
+.step:hover .step-icon {
+    background: #17231f;
+
+    color: #d5ad68;
+
+    border-color: #17231f;
+
+    transform: rotate(-8deg);
+}
+
+
+/* =========================================
+   CONTENT
+========================================= */
+
+.step-content h3 {
+    margin: 0 0 13px;
+
+    color: #17231f;
+
+    font-family: "Playfair Display", serif;
+
+    font-size: 27px;
+
+    font-weight: 500;
+}
+
+.step-content p {
+    max-width: 280px;
+
+    margin: 0;
+
+    color: #727a76;
+
+    font-size: 11px;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================
+   CONNECTOR
+========================================= */
+
+.step-connector {
+    position: absolute;
+
+    right: -22px;
+
+    top: 50%;
+
+    width: 44px;
+    height: 44px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #ffffff;
+
+    border: 1px solid #dedbd2;
+
+    border-radius: 50%;
+
+    color: #a27a45;
+
+    z-index: 2;
+}
+
+
+/* =========================================
+   BOTTOM CTA
+========================================= */
+
+.how-bottom {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-top: 45px;
+}
+
+.how-bottom span {
+    color: #929792;
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+}
+
+.how-bottom a {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    color: #17231f;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    text-decoration: none;
+
+    border-bottom: 1px solid #17231f;
+
+    padding-bottom: 7px;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 900px) {
+
+    .how-section {
+        padding: 100px 0;
+    }
+
+    .how-container {
+        width: calc(100% - 40px);
+    }
+
+    .how-header {
+        grid-template-columns: 1fr 1fr;
+
+        gap: 25px;
+    }
+
+    .how-header p {
+        grid-column: 2;
+    }
+
+    .steps-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+    .step,
+    .step:first-child,
+    .step:last-child {
+        min-height: auto;
+
+        padding: 35px 0;
+
+        border-right: none;
+
+        border-bottom: 1px solid #dedbd2;
+    }
+
+    .step:last-child {
+        border-bottom: none;
+    }
+
+    .step-top {
+        margin-bottom: 30px;
+    }
+
+    .step-content p {
+        max-width: 500px;
+    }
+
+    .step-connector {
+        display: none;
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+    .how-section {
+        padding: 80px 0;
+    }
+
+    .how-container {
+        width: calc(100% - 30px);
+    }
+
+    .how-header {
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 20px;
+
+        margin-bottom: 45px;
+    }
+
+    .how-header h2 {
+        font-size: 43px;
+
+        letter-spacing: -1px;
+    }
+
+    .step {
+        padding: 28px 0 !important;
+    }
+
+    .step-top {
+        margin-bottom: 25px;
+    }
+
+    .step-content h3 {
+        font-size: 24px;
+    }
+
+    .how-bottom {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 18px;
+    }
+
+}

@@ -1,0 +1,459 @@
+/* =========================================
+   TRAVEL NAVBAR
+========================================= */
+
+.travel-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+
+    z-index: 9999;
+
+    transition:
+        background 0.4s ease,
+        box-shadow 0.4s ease,
+        padding 0.4s ease;
+
+    padding: 26px 0;
+
+    background: transparent;
+}
+
+
+/* =========================================
+   CONTAINER
+========================================= */
+
+.navbar-container {
+    width: min(1280px, calc(100% - 70px));
+
+    margin: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+/* =========================================
+   SCROLLED NAVBAR
+========================================= */
+
+.travel-navbar.navbar-scrolled {
+
+    padding: 16px 0;
+
+    background: rgba(255, 255, 255, 0.94);
+
+    backdrop-filter: blur(18px);
+
+    -webkit-backdrop-filter: blur(18px);
+
+    box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.06);
+}
+
+
+/* =========================================
+   LOGO
+========================================= */
+
+.travel-logo {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    text-decoration: none;
+
+    color: #ffffff;
+}
+
+.navbar-scrolled .travel-logo {
+    color: #17231f;
+}
+
+
+.logo-symbol {
+
+    width: 42px;
+    height: 42px;
+
+    border: 1px solid rgba(255, 255, 255, 0.7);
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-family: "Playfair Display", serif;
+
+    font-size: 20px;
+
+    font-weight: 600;
+
+    transition: 0.3s ease;
+}
+
+.navbar-scrolled .logo-symbol {
+
+    border-color: #17231f;
+
+}
+
+
+.logo-name {
+
+    display: flex;
+
+    flex-direction: column;
+
+    font-family: "DM Sans", sans-serif;
+
+    font-size: 18px;
+
+    font-weight: 700;
+
+    letter-spacing: 4px;
+
+    line-height: 1;
+}
+
+
+.logo-name small {
+
+    margin-top: 5px;
+
+    font-size: 7px;
+
+    letter-spacing: 3px;
+
+    font-weight: 500;
+
+    opacity: 0.7;
+}
+
+
+/* =========================================
+   NAVIGATION
+========================================= */
+
+.navigation {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 38px;
+}
+
+
+.navigation a {
+
+    position: relative;
+
+    color: rgba(255, 255, 255, 0.92);
+
+    text-decoration: none;
+
+    font-family: "DM Sans", sans-serif;
+
+    font-size: 12px;
+
+    font-weight: 500;
+
+    letter-spacing: 0.3px;
+
+    transition: 0.3s ease;
+}
+
+
+.navbar-scrolled .navigation a {
+
+    color: #26332f;
+}
+
+
+.navigation a::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+
+    bottom: -7px;
+
+    width: 0;
+
+    height: 1px;
+
+    background: currentColor;
+
+    transition: width 0.3s ease;
+}
+
+
+.navigation a:hover::after {
+
+    width: 100%;
+}
+
+
+.navigation a:hover {
+
+    opacity: 0.7;
+}
+
+
+/* =========================================
+   CTA
+========================================= */
+
+.navbar-cta {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 13px 20px;
+
+    border: 1px solid rgba(255, 255, 255, 0.65);
+
+    border-radius: 50px;
+
+    text-decoration: none;
+
+    color: #ffffff;
+
+    font-family: "DM Sans", sans-serif;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    transition: all 0.3s ease;
+}
+
+
+.navbar-cta:hover {
+
+    background: #ffffff;
+
+    color: #17231f;
+
+}
+
+
+.navbar-scrolled .navbar-cta {
+
+    color: #ffffff;
+
+    background: #17231f;
+
+    border-color: #17231f;
+}
+
+
+.navbar-scrolled .navbar-cta:hover {
+
+    background: #31463f;
+
+    color: #ffffff;
+}
+
+
+/* =========================================
+   MOBILE BUTTON
+========================================= */
+
+.menu-button {
+
+    display: none;
+
+    border: none;
+
+    background: transparent;
+
+    color: #ffffff;
+
+    cursor: pointer;
+
+    padding: 5px;
+}
+
+
+.navbar-scrolled .menu-button {
+
+    color: #17231f;
+}
+
+
+/* =========================================
+   MOBILE CTA
+========================================= */
+
+.mobile-cta {
+
+    display: none;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 1000px) {
+
+    .navigation {
+
+        gap: 22px;
+    }
+
+    .navbar-container {
+
+        width: min(100% - 40px, 1280px);
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 800px) {
+
+    .travel-navbar {
+
+        padding: 20px 0;
+    }
+
+
+    .navbar-container {
+
+        width: calc(100% - 30px);
+    }
+
+
+    .navigation {
+
+        position: absolute;
+
+        top: 100%;
+
+        left: 15px;
+
+        right: 15px;
+
+        display: none;
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 0;
+
+        padding: 15px;
+
+        background: rgba(255, 255, 255, 0.98);
+
+        backdrop-filter: blur(20px);
+
+        border-radius: 18px;
+
+        box-shadow:
+            0 20px 50px rgba(0, 0, 0, 0.12);
+    }
+
+
+    .navigation.navigation-open {
+
+        display: flex;
+    }
+
+
+    .navigation a {
+
+        color: #17231f !important;
+
+        padding: 15px 10px;
+
+        border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+    }
+
+
+    .navigation a::after {
+
+        display: none;
+    }
+
+
+    .mobile-cta {
+
+        display: flex !important;
+
+        align-items: center;
+
+        justify-content: center;
+
+        gap: 8px;
+
+        margin-top: 12px;
+
+        border-radius: 50px;
+
+        background: #17231f;
+
+        color: #ffffff !important;
+
+        border: none !important;
+    }
+
+
+    .navbar-cta {
+
+        display: none;
+    }
+
+
+    .menu-button {
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+    }
+
+}
+
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+
+    .logo-name {
+
+        font-size: 16px;
+
+        letter-spacing: 3px;
+    }
+
+
+    .logo-symbol {
+
+        width: 38px;
+        height: 38px;
+    }
+
+}

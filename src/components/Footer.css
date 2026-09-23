@@ -1,0 +1,444 @@
+/* =========================================
+   FOOTER
+========================================= */
+
+.site-footer {
+    background: #101b18;
+
+    color: #ffffff;
+}
+
+
+/* =========================================
+   CONTAINER
+========================================= */
+
+.footer-container {
+    width: min(1280px, calc(100% - 70px));
+
+    margin: auto;
+}
+
+
+/* =========================================
+   TOP CTA
+========================================= */
+
+.footer-cta {
+    padding: 75px 0;
+
+    background: #d5ad68;
+
+    color: #17231f;
+}
+
+.footer-cta-inner {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 40px;
+}
+
+.footer-cta-inner span {
+    display: block;
+
+    margin-bottom: 10px;
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    letter-spacing: 3px;
+}
+
+.footer-cta-inner h2 {
+    margin: 0;
+
+    font-family: "Playfair Display", serif;
+
+    font-size: clamp(40px, 5vw, 60px);
+
+    font-weight: 500;
+
+    line-height: 1;
+
+    letter-spacing: -2px;
+}
+
+.footer-cta-inner h2 em {
+    font-weight: 400;
+}
+
+.footer-cta-inner > a {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 15px 22px;
+
+    background: #17231f;
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    border-radius: 50px;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+
+    transition: 0.3s ease;
+}
+
+.footer-cta-inner > a:hover {
+    background: #ffffff;
+
+    color: #17231f;
+}
+
+
+/* =========================================
+   MAIN FOOTER
+========================================= */
+
+.footer-main {
+    padding: 85px 0 70px;
+}
+
+.footer-grid {
+    display: grid;
+
+    grid-template-columns:
+        1.5fr
+        0.8fr
+        1fr
+        1fr;
+
+    gap: 70px;
+}
+
+
+/* =========================================
+   BRAND
+========================================= */
+
+.footer-logo {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    color: #ffffff;
+
+    text-decoration: none;
+}
+
+.footer-logo-symbol {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(255, 255, 255, 0.6);
+
+    border-radius: 50%;
+
+    font-family: "Playfair Display", serif;
+
+    font-size: 20px;
+}
+
+.footer-logo > span:last-child {
+    display: flex;
+
+    flex-direction: column;
+
+    font-family: "DM Sans", sans-serif;
+
+    font-size: 18px;
+
+    font-weight: 700;
+
+    letter-spacing: 4px;
+
+    line-height: 1;
+}
+
+.footer-logo small {
+    margin-top: 5px;
+
+    font-size: 7px;
+
+    letter-spacing: 3px;
+
+    opacity: 0.5;
+}
+
+.footer-brand p {
+    max-width: 310px;
+
+    margin: 25px 0;
+
+    color: rgba(255, 255, 255, 0.48);
+
+    font-size: 11px;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================
+   SOCIAL
+========================================= */
+
+.footer-socials {
+    display: flex;
+
+    gap: 8px;
+}
+
+.footer-socials a {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(255, 255, 255, 0.15);
+
+    border-radius: 50%;
+
+    color: rgba(255, 255, 255, 0.7);
+
+    transition: 0.3s ease;
+}
+
+.footer-socials a:hover {
+    background: #d5ad68;
+
+    color: #17231f;
+
+    border-color: #d5ad68;
+}
+
+
+/* =========================================
+   COLUMNS
+========================================= */
+
+.footer-column h3,
+.footer-contact h3 {
+    margin: 3px 0 22px;
+
+    color: #d5ad68;
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    letter-spacing: 2.5px;
+}
+
+.footer-column {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 13px;
+}
+
+.footer-column a {
+    color: rgba(255, 255, 255, 0.55);
+
+    text-decoration: none;
+
+    font-size: 10px;
+
+    transition: 0.3s ease;
+}
+
+.footer-column a:hover {
+    color: #ffffff;
+
+    transform: translateX(3px);
+}
+
+
+/* =========================================
+   CONTACT
+========================================= */
+
+.footer-contact {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+}
+
+.footer-contact > a,
+.footer-address {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 10px;
+
+    margin-bottom: 17px;
+
+    color: rgba(255, 255, 255, 0.55);
+
+    text-decoration: none;
+
+    font-size: 10px;
+
+    line-height: 1.6;
+
+    transition: 0.3s ease;
+}
+
+.footer-contact > a:hover {
+    color: #ffffff;
+}
+
+.footer-contact svg {
+    flex-shrink: 0;
+
+    color: #d5ad68;
+
+    margin-top: 2px;
+}
+
+.footer-address {
+    margin-bottom: 0;
+}
+
+
+/* =========================================
+   BOTTOM
+========================================= */
+
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+
+    padding: 20px 0;
+}
+
+.footer-bottom-inner {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    color: rgba(255, 255, 255, 0.35);
+
+    font-size: 8px;
+}
+
+.footer-bottom-inner > div {
+    display: flex;
+
+    gap: 25px;
+}
+
+.footer-bottom a {
+    color: rgba(255, 255, 255, 0.35);
+
+    text-decoration: none;
+
+    transition: 0.3s ease;
+}
+
+.footer-bottom a:hover {
+    color: #ffffff;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 900px) {
+
+    .footer-container {
+        width: calc(100% - 40px);
+    }
+
+    .footer-grid {
+        grid-template-columns:
+            1fr 1fr;
+
+        gap: 50px;
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+    .footer-cta {
+        padding: 60px 0;
+    }
+
+    .footer-container {
+        width: calc(100% - 30px);
+    }
+
+    .footer-cta-inner {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+    .footer-cta-inner h2 {
+        font-size: 44px;
+    }
+
+    .footer-main {
+        padding: 65px 0 50px;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+
+        gap: 45px;
+    }
+
+    .footer-bottom-inner {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        line-height: 1.6;
+    }
+
+    .footer-bottom-inner > div {
+        flex-direction: column;
+
+        gap: 8px;
+    }
+
+}

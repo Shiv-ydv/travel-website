@@ -1,0 +1,412 @@
+/* =========================================
+   BOOKING CTA
+========================================= */
+
+.booking-section {
+    position: relative;
+
+    min-height: 700px;
+
+    display: flex;
+
+    align-items: center;
+
+    overflow: hidden;
+
+    color: #ffffff;
+}
+
+
+/* =========================================
+   BACKGROUND
+========================================= */
+
+.booking-background {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 0;
+}
+
+.booking-background img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    object-position: center;
+}
+
+
+/* =========================================
+   OVERLAY
+========================================= */
+
+.booking-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 1;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(9, 21, 18, 0.9) 0%,
+            rgba(9, 21, 18, 0.68) 48%,
+            rgba(9, 21, 18, 0.32) 100%
+        );
+}
+
+
+/* =========================================
+   CONTAINER
+========================================= */
+
+.booking-container {
+    position: relative;
+
+    z-index: 2;
+
+    width: min(1280px, calc(100% - 70px));
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns: 1.15fr 0.85fr;
+
+    align-items: center;
+
+    gap: 90px;
+}
+
+
+/* =========================================
+   CONTENT
+========================================= */
+
+.booking-content {
+    max-width: 650px;
+}
+
+.booking-label {
+    display: block;
+
+    margin-bottom: 20px;
+
+    color: #d5ad68;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 3px;
+}
+
+.booking-content h2 {
+    margin: 0;
+
+    font-family: "Playfair Display", serif;
+
+    font-size: clamp(50px, 6vw, 82px);
+
+    font-weight: 400;
+
+    line-height: 1;
+
+    letter-spacing: -3px;
+}
+
+.booking-content h2 em {
+    color: #d5ad68;
+
+    font-weight: 400;
+}
+
+.booking-content > p {
+    max-width: 510px;
+
+    margin: 28px 0 35px;
+
+    color: rgba(255, 255, 255, 0.72);
+
+    font-size: 13px;
+
+    line-height: 1.85;
+}
+
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+.booking-buttons {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+.booking-primary {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 15px 21px;
+
+    background: #d5ad68;
+
+    color: #17231f;
+
+    border-radius: 50px;
+
+    text-decoration: none;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    transition: 0.3s ease;
+}
+
+.booking-primary:hover {
+    background: #ffffff;
+
+    color: #17231f;
+
+    transform: translateY(-2px);
+}
+
+.booking-secondary {
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    padding: 14px 20px;
+
+    border: 1px solid rgba(255, 255, 255, 0.45);
+
+    color: #ffffff;
+
+    border-radius: 50px;
+
+    text-decoration: none;
+
+    font-size: 11px;
+
+    font-weight: 500;
+
+    transition: 0.3s ease;
+}
+
+.booking-secondary:hover {
+    background: #ffffff;
+
+    color: #17231f;
+}
+
+
+/* =========================================
+   BOOKING CARD
+========================================= */
+
+.booking-card {
+    padding: 30px;
+
+    background: rgba(255, 255, 255, 0.96);
+
+    color: #17231f;
+
+    border-radius: 3px;
+
+    box-shadow:
+        0 25px 80px rgba(0, 0, 0, 0.25);
+}
+
+.booking-card-header {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 25px;
+
+    padding-bottom: 17px;
+
+    border-bottom: 1px solid #e4e1d9;
+
+    color: #a27a45;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+}
+
+
+/* =========================================
+   FIELDS
+========================================= */
+
+.booking-field {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+    padding: 15px 0;
+
+    border-bottom: 1px solid #e4e1d9;
+}
+
+.booking-field label {
+    color: #969b97;
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+}
+
+.booking-field strong {
+    color: #26332f;
+
+    font-size: 11px;
+
+    font-weight: 500;
+}
+
+
+/* =========================================
+   ROW
+========================================= */
+
+.booking-row {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 25px;
+}
+
+
+/* =========================================
+   SEARCH
+========================================= */
+
+.booking-search {
+    width: 100%;
+
+    margin-top: 22px;
+
+    padding: 15px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 9px;
+
+    border: none;
+
+    border-radius: 2px;
+
+    background: #17231f;
+
+    color: #ffffff;
+
+    font-family: "DM Sans", sans-serif;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.3s ease;
+}
+
+.booking-search:hover {
+    background: #a27a45;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 900px) {
+
+    .booking-section {
+        padding: 100px 0;
+
+        min-height: auto;
+    }
+
+    .booking-container {
+        width: calc(100% - 40px);
+
+        grid-template-columns: 1fr;
+
+        gap: 55px;
+    }
+
+    .booking-content {
+        max-width: 700px;
+    }
+
+    .booking-card {
+        max-width: 600px;
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+    .booking-section {
+        padding: 80px 0;
+    }
+
+    .booking-container {
+        width: calc(100% - 30px);
+    }
+
+    .booking-content h2 {
+        font-size: 50px;
+
+        letter-spacing: -2px;
+    }
+
+    .booking-buttons {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+    .booking-card {
+        padding: 22px;
+    }
+
+    .booking-row {
+        gap: 15px;
+    }
+
+}

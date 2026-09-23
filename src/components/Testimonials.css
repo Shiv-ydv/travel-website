@@ -1,0 +1,438 @@
+/* =========================================
+   TESTIMONIALS
+========================================= */
+
+.testimonials-section {
+    padding: 140px 0;
+
+    background: #17231f;
+
+    color: #ffffff;
+}
+
+.testimonials-container {
+    width: min(1100px, calc(100% - 70px));
+
+    margin: auto;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.testimonials-header {
+    display: flex;
+
+    align-items: flex-end;
+
+    justify-content: space-between;
+
+    gap: 50px;
+
+    margin-bottom: 65px;
+}
+
+.testimonials-label {
+    display: block;
+
+    margin-bottom: 18px;
+
+    color: #d5ad68;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 3px;
+}
+
+.testimonials-header h2 {
+    margin: 0;
+
+    font-family: "Playfair Display", serif;
+
+    font-size: clamp(45px, 5vw, 65px);
+
+    line-height: 1.04;
+
+    font-weight: 400;
+
+    letter-spacing: -2px;
+}
+
+.testimonials-header h2 em {
+    color: #d5ad68;
+
+    font-weight: 400;
+}
+
+
+/* =========================================
+   RATING
+========================================= */
+
+.testimonials-rating {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-end;
+
+    gap: 6px;
+}
+
+.rating-stars {
+    display: flex;
+
+    gap: 3px;
+
+    color: #d5ad68;
+}
+
+.testimonials-rating strong {
+    font-family: "Playfair Display", serif;
+
+    font-size: 22px;
+
+    font-weight: 400;
+}
+
+.testimonials-rating span {
+    color: rgba(255, 255, 255, 0.45);
+
+    font-size: 9px;
+}
+
+
+/* =========================================
+   FEATURED REVIEW
+========================================= */
+
+.featured-review {
+    position: relative;
+
+    padding: 65px 75px;
+
+    background: #22332d;
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.quote-icon {
+    margin-bottom: 25px;
+
+    color: #d5ad68;
+
+    opacity: 0.8;
+}
+
+.featured-review blockquote {
+    max-width: 850px;
+
+    margin: 0;
+
+    font-family: "Playfair Display", serif;
+
+    font-size: clamp(25px, 3vw, 38px);
+
+    line-height: 1.4;
+
+    font-weight: 400;
+
+    color: #ffffff;
+}
+
+
+/* =========================================
+   REVIEW BOTTOM
+========================================= */
+
+.review-bottom {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 30px;
+
+    margin-top: 45px;
+
+    padding-top: 25px;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.review-person {
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+}
+
+.person-avatar,
+.small-avatar {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #d5ad68;
+
+    color: #17231f;
+
+    font-weight: 700;
+}
+
+.person-avatar {
+    width: 43px;
+    height: 43px;
+
+    font-size: 11px;
+}
+
+.review-person div:last-child,
+.small-person div:last-child {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
+}
+
+.review-person strong {
+    font-size: 11px;
+}
+
+.review-person span {
+    color: rgba(255, 255, 255, 0.45);
+
+    font-size: 9px;
+}
+
+
+/* =========================================
+   NAVIGATION
+========================================= */
+
+.review-navigation {
+    display: flex;
+
+    gap: 8px;
+}
+
+.review-navigation button {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(255, 255, 255, 0.2);
+
+    border-radius: 50%;
+
+    background: transparent;
+
+    color: #ffffff;
+
+    cursor: pointer;
+
+    transition: 0.3s ease;
+}
+
+.review-navigation button:hover {
+    background: #ffffff;
+
+    color: #17231f;
+
+    border-color: #ffffff;
+}
+
+
+/* =========================================
+   SMALL REVIEWS
+========================================= */
+
+.review-grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 18px;
+
+    margin-top: 18px;
+}
+
+.small-review {
+    padding: 30px;
+
+    background: rgba(255, 255, 255, 0.035);
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.small-review-top {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-bottom: 22px;
+}
+
+.small-stars {
+    display: flex;
+
+    gap: 2px;
+
+    color: #d5ad68;
+}
+
+.small-review-top > span {
+    color: rgba(255, 255, 255, 0.3);
+
+    font-size: 7px;
+
+    letter-spacing: 1.5px;
+
+    font-weight: 600;
+}
+
+.small-review p {
+    min-height: 75px;
+
+    margin: 0 0 25px;
+
+    color: rgba(255, 255, 255, 0.75);
+
+    font-family: "Playfair Display", serif;
+
+    font-size: 18px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================
+   SMALL PERSON
+========================================= */
+
+.small-person {
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    padding-top: 20px;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.small-avatar {
+    width: 34px;
+    height: 34px;
+
+    font-size: 9px;
+}
+
+.small-person strong {
+    font-size: 10px;
+}
+
+.small-person span {
+    color: rgba(255, 255, 255, 0.4);
+
+    font-size: 8px;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 800px) {
+
+    .testimonials-section {
+        padding: 100px 0;
+    }
+
+    .testimonials-container {
+        width: calc(100% - 40px);
+    }
+
+    .testimonials-header {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+    .testimonials-rating {
+        align-items: flex-start;
+    }
+
+    .featured-review {
+        padding: 45px 35px;
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+    .testimonials-section {
+        padding: 80px 0;
+    }
+
+    .testimonials-container {
+        width: calc(100% - 30px);
+    }
+
+    .testimonials-header {
+        margin-bottom: 40px;
+    }
+
+    .testimonials-header h2 {
+        font-size: 43px;
+
+        letter-spacing: -1px;
+    }
+
+    .featured-review {
+        padding: 35px 22px;
+    }
+
+    .featured-review blockquote {
+        font-size: 23px;
+    }
+
+    .review-bottom {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+    .review-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .small-review {
+        padding: 25px 22px;
+    }
+
+}
