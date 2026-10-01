@@ -1,128 +1,247 @@
 import {
-    Plane,
-    Map,
-    CarFront,
-    BriefcaseBusiness,
-    ArrowUpRight,
+  Plane,
+  MapPinned,
+  CarFront,
+  BriefcaseBusiness,
+  ArrowUpRight,
+  MessageCircle,
 } from "lucide-react";
 
 import "./Services.css";
 
-const services = [
-    {
-        number: "01",
-        title: "Airport Transfers",
-        description:
-            "Reliable airport pickup and drop services with comfortable vehicles and professional drivers.",
-        icon: Plane,
-    },
-    {
-        number: "02",
-        title: "Outstation Trips",
-        description:
-            "Travel beyond the city with spacious cars, experienced drivers and flexible trip options.",
-        icon: Map,
-    },
-    {
-        number: "03",
-        title: "Local Car Rental",
-        description:
-            "Explore your city comfortably with hourly, daily and full-day car rental options.",
-        icon: CarFront,
-    },
-    {
-        number: "04",
-        title: "Corporate Travel",
-        description:
-            "Professional transportation solutions for meetings, events, business trips and corporate guests.",
-        icon: BriefcaseBusiness,
-    },
+const WHATSAPP_NUMBER = "917870787208";
+
+const travelServices = [
+  {
+    number: "01",
+    title: "Airport Transfers",
+    shortTitle: "Airport Transfer",
+    description:
+      "Reliable airport pickup and drop services with comfortable cars and professional drivers.",
+    icon: Plane,
+    image:
+      "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1200&q=85",
+  },
+
+  {
+    number: "02",
+    title: "Outstation Journeys",
+    shortTitle: "Outstation",
+    description:
+      "Travel beyond the city with comfortable vehicles, experienced drivers and flexible plans.",
+    icon: MapPinned,
+    image:
+      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=85",
+  },
+
+  {
+    number: "03",
+    title: "Local Car Rentals",
+    shortTitle: "Local Rental",
+    description:
+      "Convenient hourly, daily and full-day car rentals for exploring the city your way.",
+    icon: CarFront,
+    image:
+      "https://images.unsplash.com/photo-1504215680853-026ed2a45def?auto=format&fit=crop&w=1200&q=85",
+  },
+
+  {
+    number: "04",
+    title: "Corporate Travel",
+    shortTitle: "Corporate Travel",
+    description:
+      "Professional transportation for meetings, events, business trips and corporate guests.",
+    icon: BriefcaseBusiness,
+    image:
+      "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=85",
+  },
 ];
 
 const Services = () => {
-    return (
-        <section className="services-section" id="services">
 
-            <div className="services-container">
+  const openWhatsApp = (service) => {
 
-                {/* Heading */}
-                <div className="services-heading">
+    const message = `Hello, I want to know more about ${service.title}.`;
 
-                    <div className="services-title">
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+      message
+    )}`;
 
-                        <span className="services-label">
-                            OUR SERVICES
-                        </span>
+    window.open(url, "_blank");
+  };
 
-                        <h2>
-                            Wherever you're going,
-                            <br />
-                            <em>we'll get you there.</em>
-                        </h2>
+
+  return (
+    <section className="premium-services" id="services">
+
+      <div className="premium-services-container">
+
+
+        {/* =====================================================
+            HEADER
+        ===================================================== */}
+
+        <div className="premium-services-header">
+
+          <div className="premium-services-title">
+
+            <span className="premium-services-label">
+              OUR SERVICES
+            </span>
+
+            <h2>
+              Everything you need
+              <br />
+              <em>for a better journey.</em>
+            </h2>
+
+          </div>
+
+
+          <div className="premium-services-intro">
+
+            <span className="premium-services-line"></span>
+
+            <p>
+              From airport transfers to long-distance journeys,
+              travel comfortably with reliable cars and
+              professional service.
+            </p>
+
+          </div>
+
+        </div>
+
+
+
+        {/* =====================================================
+            SERVICES GRID
+        ===================================================== */}
+
+        <div className="premium-services-grid">
+
+          {travelServices.map((service) => {
+
+            const Icon = service.icon;
+
+            return (
+
+              <article
+                className="premium-service-card"
+                key={service.number}
+              >
+
+
+                {/* =================================================
+                    IMAGE
+                ================================================= */}
+
+                <div className="premium-service-image">
+
+                  <img
+                    src={service.image}
+                    alt={service.title}
+                  />
+
+                  <div className="premium-service-image-overlay"></div>
+
+
+                  {/* NUMBER */}
+
+                  {/* <span className="premium-service-number">
+                    {service.number}
+                  </span> */}
+
+
+                  {/* ICON */}
+
+                  <div className="premium-service-icon">
+
+                    <Icon
+                      size={19}
+                      strokeWidth={1.7}
+                    />
+
+                  </div>
+
+                </div>
+
+
+
+                {/* =================================================
+                    CONTENT
+                ================================================= */}
+
+                <div className="premium-service-content">
+
+
+                  <span className="premium-service-small-title">
+                    {service.shortTitle}
+                  </span>
+
+
+                  <h3>
+                    {service.title}
+                  </h3>
+
+
+                  <p>
+                    {service.description}
+                  </p>
+
+
+                  {/* =================================================
+                      BOTTOM
+                  ================================================= */}
+
+                  <div className="premium-service-bottom">
+
+
+                    {/* WHATSAPP */}
+
+                    <button
+                      type="button"
+                      className="premium-whatsapp-btn"
+                      onClick={() =>
+                        openWhatsApp(service)
+                      }
+                    >
+
+                      <MessageCircle size={17} />
+
+                      <span>
+                        Hello, Enquire Now
+                      </span>
+
+                    </button>
+
+
+                    {/* ARROW */}
+
+                    <div className="premium-service-arrow">
+
+                      <ArrowUpRight
+                        size={17}
+                      />
 
                     </div>
 
-                    <p>
-                        From quick airport transfers to long-distance
-                        journeys, we make every ride comfortable, reliable
-                        and effortless.
-                    </p>
+                  </div>
 
                 </div>
 
+              </article>
 
-                {/* Services */}
-                <div className="services-list">
+            );
 
-                    {services.map((service) => {
+          })}
 
-                        const Icon = service.icon;
+        </div>
 
-                        return (
-                            <a
-                                href="#booking"
-                                className="service-item"
-                                key={service.number}
-                            >
+      </div>
 
-                                <span className="service-number">
-                                    {service.number}
-                                </span>
-
-
-                                <div className="service-icon">
-                                    <Icon size={25} strokeWidth={1.5} />
-                                </div>
-
-
-                                <div className="service-content">
-
-                                    <h3>
-                                        {service.title}
-                                    </h3>
-
-                                    <p>
-                                        {service.description}
-                                    </p>
-
-                                </div>
-
-
-                                <div className="service-arrow">
-                                    <ArrowUpRight size={21} />
-                                </div>
-
-                            </a>
-                        );
-
-                    })}
-
-                </div>
-
-            </div>
-
-        </section>
-    );
+    </section>
+  );
 };
 
 export default Services;

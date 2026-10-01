@@ -7,7 +7,6 @@ import WhyChooseUs from "../components/WhyChooseUs"
 import HowItWorks from "../components/HowItWorks"
 import Testimonials from "../components/Testimonials"
 import BookingCTA from "../components/BookingCTA"
-import Footer from "../components/Footer"
 const Home = () => {
     return (
         <>
@@ -15,17 +14,15 @@ const Home = () => {
 
             <main>
                 <Hero />
+                <Services />
                 <Destinations />
                 <CarFleet />
-                <Services />
                 <WhyChooseUs />
                 <HowItWorks />
                 <Testimonials />
                 <BookingCTA />
-                <Footer />
             </main>
 
-            <Footer />
         </>
     );
 };

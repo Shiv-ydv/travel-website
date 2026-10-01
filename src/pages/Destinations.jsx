@@ -1,159 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
     ArrowUpRight,
     MapPin,
-    Clock3,
     Route,
     CarFront,
 } from "lucide-react";
 
 import "./Destinations.css";
 
-/* =========================================================
-   DESTINATION IMAGES
-========================================================= */
-
-// Ranchi Areas
-import jonhaFall from "../assets/destination/jonhafall.jpg";
-import dassam from "../assets/destination/dassam.png";
-import hundru from "../assets/destination/dassam.png";
-import patratu from "../assets/destination/patratu.png";
-import netarhat from "../assets/destination/netrahat.png";
-
-
-// Kolkata & West Bengal
-import digha from "../assets/destination/digha.png";
-import victoria from "../assets/destination/victoria.png";
-import mandarmani from "../assets/destination/mandarmani.png";
-
-
-// Odisha 
-import puriBeach from "../assets/destination/puriBeach.png";
-import puriTemple from "../assets/destination/puriTemple.png";
-import puriVillage from "../assets/destination/puriVillage.png";
-/* =========================================================
-   DESTINATIONS DATA
-========================================================= */
-
-const destinations = [
-    {
-        number: "01",
-        name: "Jonha Falls",
-        city: "Ranchi",
-        state: "Jharkhand",
-        distance: "40 KM",
-        time: "1.5 hrs",
-        image: jonhaFall,
-    },
-
-    {
-        number: "02",
-        name: "Dassam Falls",
-        city: "Ranchi",
-        state: "Jharkhand",
-        distance: "40 KM",
-        time: "1.5 hrs",
-        image: dassam,
-    },
-
-    {
-        number: "03",
-        name: "Hundru Falls",
-        city: "Ranchi",
-        state: "Jharkhand",
-        distance: "45 KM",
-        time: "1.5 hrs",
-        image: hundru,
-    },
-
-    {
-        number: "04",
-        name: "Patratu Valley",
-        city: "Ranchi",
-        state: "Jharkhand",
-        distance: "40 KM",
-        time: "1.5 hrs",
-        image: patratu,
-    },
-
-    {
-        number: "05",
-        name: "Netarhat",
-        city: "Latehar",
-        state: "Jharkhand",
-        distance: "155 KM",
-        time: "4.5 hrs",
-        image: netarhat,
-    },
-
-    {
-        number: "06",
-        name: "Digha Beach",
-        city: "Kolkata",
-        state: "West Bengal",
-        distance: "400+ KM",
-        time: "8 hrs",
-        image: digha,
-    },
-
-    {
-        number: "07",
-        name: "Victoria Memorial",
-        city: "Kolkata",
-        state: "West Bengal",
-        distance: "600+ KM",
-        time: "14 hrs",
-        image: victoria,
-    },
-
-    {
-        number: "08",
-        name: "Mandarmani Beach",
-        city: "Kolkata",
-        state: "West Bengal",
-        distance: "350+ KM",
-        time: "7 hrs",
-        image: mandarmani,
-    },
-
-
-    {
-        number: "09",
-        name: "Puri Beach",
-        city: "Puri",
-        state: "Odisha",
-        distance: "430+ KM",
-        time: "9 hrs",
-        image: puriBeach
-    },
-
-    {
-        number: "10",
-        name: "Puri Temple",
-        city: "Puri",
-        state: "Odisha",
-        distance: "430+ KM",
-        time: "9 hrs",
-        image: puriTemple
-    },
-    
-    {
-        number: "11",
-        name: "Raghurajpur Artist Village",
-        city: "Puri",
-        state: "Odisha",
-        distance: "430+ KM",
-        time: "9 hrs",
-        image: puriVillage
-    },
-   
-
-];
+// Django API service
+import api from "../services/api";
 
 
 /* =========================================================
    JOURNEY TYPES
+   These sections are static website content.
+   They do not come from the database.
 ========================================================= */
 
 const routeTypes = [
@@ -186,22 +49,191 @@ const routeTypes = [
 
 const Destinations = () => {
 
-    /* Selected state */
+    /* =====================================================
+       DESTINATION DATA
+       This will now come from Django instead of hardcoded
+       data.
+    ===================================================== */
+
+    const [destinations, setDestinations] = useState([]);
+
+
+    /* =====================================================
+       LOADING STATE
+
+       Used while Django API is fetching destinations.
+    ===================================================== */
+
+    const [loading, setLoading] = useState(true);
+
+
+    /* =====================================================
+       ERROR STATE
+
+       Used if Django API cannot be reached.
+    ===================================================== */
+
+    const [error, setError] = useState("");
+
+
+    /* =====================================================
+       SELECTED STATE
+
+       Used by the location filter.
+    ===================================================== */
+
     const [selectedState, setSelectedState] = useState("All");
 
 
     /* =====================================================
+       FETCH DESTINATIONS FROM DJANGO
+
+       API:
+       GET http://127.0.0.1:8000/api/destinations/
+
+       Only destinations with status=true will be displayed
+       on the public website.
+    ===================================================== */
+
+    useEffect(() => {
+
+        const fetchDestinations = async () => {
+
+            try {
+
+                // Start loading
+                setLoading(true);
+
+                // Clear previous error
+                setError("");
+
+
+                /* -------------------------------------------------
+                   Get destinations from Django REST API
+                ------------------------------------------------- */
+
+                const response = await api.get(
+                    "/destinations/"
+                );
+
+
+                /* -------------------------------------------------
+                   Django returns an array of destinations.
+
+                   Example:
+
+                   [
+                       {
+                           id: 1,
+                           number: "01",
+                           name: "Jonha Falls",
+                           city: "Ranchi",
+                           state: "Jharkhand",
+                           distance: "40 KM",
+                           time: "1.5 hrs",
+                           image_url: "...",
+                           status: true
+                       }
+                   ]
+                ------------------------------------------------- */
+
+                const apiDestinations =
+                    Array.isArray(response.data)
+                        ? response.data
+                        : [];
+
+
+                /* -------------------------------------------------
+                   Only show ACTIVE destinations.
+
+                   Admin can control visibility using the
+                   Active Destination checkbox.
+                ------------------------------------------------- */
+
+                const activeDestinations =
+                    apiDestinations.filter(
+                        (destination) =>
+                            destination.status === true
+                    );
+
+
+                /* -------------------------------------------------
+                   Store API data in React state
+                ------------------------------------------------- */
+
+                setDestinations(
+                    activeDestinations
+                );
+
+
+            } catch (error) {
+
+                /* -------------------------------------------------
+                   API ERROR
+                ------------------------------------------------- */
+
+                console.error(
+                    "Failed to load destinations:",
+                    error
+                );
+
+
+                setError(
+                    "Unable to load destinations right now."
+                );
+
+
+                // Empty destination list
+                setDestinations([]);
+
+
+            } finally {
+
+                /* -------------------------------------------------
+                   Stop loading
+                ------------------------------------------------- */
+
+                setLoading(false);
+            }
+        };
+
+
+        // Run API request when page loads
+        fetchDestinations();
+
+    }, []);
+
+
+    /* =====================================================
        GET UNIQUE STATES
+
+       Example:
+
+       All
+       Jharkhand
+       West Bengal
+       Odisha
     ===================================================== */
 
     const states = [
         "All",
-        ...new Set(destinations.map((destination) => destination.state)),
+        ...new Set(
+            destinations.map(
+                (destination) =>
+                    destination.state
+            )
+        ),
     ];
 
 
     /* =====================================================
        FILTER DESTINATIONS
+
+       If "All" is selected:
+       Show everything.
+
+       Otherwise:
+       Show only selected state.
     ===================================================== */
 
     const filteredDestinations =
@@ -209,11 +241,17 @@ const Destinations = () => {
             ? destinations
             : destinations.filter(
                 (destination) =>
-                    destination.state === selectedState
+                    destination.state ===
+                    selectedState
             );
 
 
+    /* =====================================================
+       PAGE UI
+    ===================================================== */
+
     return (
+
         <main className="destinations-page">
 
 
@@ -221,70 +259,79 @@ const Destinations = () => {
                 HERO
             ================================================= */}
 
-           <section className="destinations-hero">
-
-    {/* Background Video */}
-    <div className="destinations-hero-bg">
-
-        <video
-            className="destinations-hero-video"
-            autoPlay
-            muted
-            loop
-            playsInline
-            poster="/images/destinations-poster.jpg"
-        >
-            <source
-                src="https://www.pexels.com/download/video/32548577/"
-                type="video/mp4"
-            />
-
-            Your browser does not support the video tag.
-        </video>
-
-    </div>
+            <section className="destinations-hero">
 
 
-    {/* Dark Overlay */}
-    <div className="destinations-hero-overlay"></div>
+                {/* Background Video */}
+
+                <div className="destinations-hero-bg">
+
+                    <video
+                        className="destinations-hero-video"
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        poster="/images/destinations-poster.jpg"
+                    >
+
+                        <source
+                            src="https://www.pexels.com/download/video/32548577/"
+                            type="video/mp4"
+                        />
+
+                        Your browser does not support
+                        the video tag.
+
+                    </video>
+
+                </div>
 
 
-    {/* Hero Content */}
-    <div className="destinations-hero-content">
+                {/* Dark Overlay */}
 
-        <span className="destinations-eyebrow">
-            DESTINATIONS
-        </span>
-
-        <h1>
-            Go further.
-            <br />
-            <em>Discover more.</em>
-        </h1>
-
-        <p>
-            From quick city transfers to long-distance
-            journeys, explore destinations with a comfortable
-            car and a professional driver.
-        </p>
-
-    </div>
+                <div className="destinations-hero-overlay"></div>
 
 
-    {/* Bottom Information */}
-    <div className="destinations-hero-bottom">
+                {/* Hero Content */}
 
-        <span>Local Travel</span>
+                <div className="destinations-hero-content">
 
-        <span>Outstation</span>
+                    <span className="destinations-eyebrow">
+                        DESTINATIONS
+                    </span>
 
-        <span>One Way</span>
+                    <h1>
+                        Go further.
+                        <br />
+                        <em>Discover more.</em>
+                    </h1>
 
-        <span>Round Trip</span>
+                    <p>
+                        From quick city transfers to
+                        long-distance journeys, explore
+                        destinations with a comfortable
+                        car and a professional driver.
+                    </p>
 
-    </div>
+                </div>
 
-</section>
+
+                {/* Bottom Information */}
+
+                <div className="destinations-hero-bottom">
+
+                    <span>Local Travel</span>
+
+                    <span>Outstation</span>
+
+                    <span>One Way</span>
+
+                    <span>Round Trip</span>
+
+                </div>
+
+            </section>
 
 
             {/* =================================================
@@ -313,10 +360,11 @@ const Destinations = () => {
                         </h2>
 
                         <p>
-                            Plan your next journey with a comfortable
-                            vehicle and experienced driver. Choose from
-                            popular destinations or tell us where you want
-                            to go.
+                            Plan your next journey with a
+                            comfortable vehicle and experienced
+                            driver. Choose from popular
+                            destinations or tell us where you
+                            want to go.
                         </p>
 
                     </div>
@@ -357,244 +405,352 @@ const Destinations = () => {
 
 
                         <p>
-                            Popular routes from Ranchi and nearby
-                            cities for comfortable outstation travel.
+                            Popular routes from Ranchi and
+                            nearby cities for comfortable
+                            outstation travel.
                         </p>
 
                     </div>
 
 
                     {/* =================================================
-                        FILTER + DESTINATIONS
+                        LOADING STATE
+
+                        This appears while Django API is loading.
                     ================================================= */}
 
-                    <div className="destination-layout">
+                    {loading ? (
 
+                        <div className="destination-empty">
 
-                        {/* =============================================
-                            LEFT FILTER SIDEBAR
-                        ============================================== */}
+                            <MapPin size={35} />
 
-                        <aside className="destination-filter">
+                            <h3>
+                                Loading destinations...
+                            </h3>
 
-                            <div className="filter-heading">
-
-                                <span>
-                                    EXPLORE BY
-                                </span>
-
-                                <h3>
-                                    Location
-                                </h3>
-
-                            </div>
-
-
-                            <div className="filter-list">
-
-                                {states.map((state) => {
-
-                                    const count =
-                                        state === "All"
-                                            ? destinations.length
-                                            : destinations.filter(
-                                                (destination) =>
-                                                    destination.state === state
-                                            ).length;
-
-
-                                    return (
-                                        <button
-                                            type="button"
-                                            key={state}
-                                            className={
-                                                selectedState === state
-                                                    ? "filter-button active"
-                                                    : "filter-button"
-                                            }
-                                            onClick={() =>
-                                                setSelectedState(state)
-                                            }
-                                        >
-
-                                            <span className="filter-button-left">
-
-                                                <MapPin size={15} />
-
-                                                <span>
-                                                    {state}
-                                                </span>
-
-                                            </span>
-
-
-                                            <span className="filter-count">
-                                                {count}
-                                            </span>
-
-                                        </button>
-                                    );
-
-                                })}
-
-                            </div>
-
-
-                            {/* Current Selection */}
-
-                            <div className="filter-selected">
-
-                                <span>
-                                    SELECTED LOCATION
-                                </span>
-
-                                <strong>
-                                    {selectedState === "All"
-                                        ? "All Destinations"
-                                        : selectedState}
-                                </strong>
-
-                            </div>
-
-                        </aside>
-
-
-                        {/* =============================================
-                            DESTINATION CARDS
-                        ============================================== */}
-
-                        <div className="destination-results">
-
-
-                            {/* Results Header */}
-
-                            <div className="destination-results-header">
-
-                                <span>
-                                    {filteredDestinations.length}{" "}
-                                    {filteredDestinations.length === 1
-                                        ? "Destination"
-                                        : "Destinations"}
-                                </span>
-
-
-                                {selectedState !== "All" && (
-                                    <button
-                                        type="button"
-                                        onClick={() =>
-                                            setSelectedState("All")
-                                        }
-                                    >
-                                        View all
-                                        <ArrowUpRight size={15} />
-                                    </button>
-                                )}
-
-                            </div>
-
-
-                            {/* Cards */}
-
-                            <div className="destination-grid">
-
-                                {filteredDestinations.map(
-                                    (destination) => (
-
-                                        <article
-                                            className="destination-card"
-                                            key={`${destination.state}-${destination.name}`}
-                                        >
-
-                                            {/* Image */}
-
-                                            <div className="destination-image">
-
-                                                <img
-                                                    src={destination.image}
-                                                    alt={destination.name}
-                                                />
-
-
-                                                <span className="destination-number">
-                                                    {destination.number}
-                                                </span>
-
-
-                                                <button
-                                                    type="button"
-                                                    className="destination-arrow"
-                                                    aria-label={`View ${destination.name}`}
-                                                >
-                                                    <ArrowUpRight
-                                                        size={20}
-                                                    />
-                                                </button>
-
-                                            </div>
-
-
-                                            {/* Content */}
-
-                                            <div className="destination-content">
-
-                                                <span className="destination-state">
-
-                                                    <MapPin size={13} />
-
-                                                    {destination.city},{" "}
-                                                    {destination.state}
-
-                                                </span>
-
-
-                                                <h3>
-                                                    {destination.name}
-                                                </h3>
-
-
-                                            </div>
-
-                                        </article>
-
-                                    )
-                                )}
-
-                            </div>
-
-
-                            {/* Empty State */}
-
-                            {filteredDestinations.length === 0 && (
-
-                                <div className="destination-empty">
-
-                                    <MapPin size={35} />
-
-                                    <h3>
-                                        No destinations found
-                                    </h3>
-
-                                    <p>
-                                        We don't currently have destinations
-                                        listed for this state.
-                                    </p>
-
-                                    <button
-                                        type="button"
-                                        onClick={() =>
-                                            setSelectedState("All")
-                                        }
-                                    >
-                                        View all destinations
-                                    </button>
-
-                                </div>
-
-                            )}
+                            <p>
+                                Please wait while we load
+                                available destinations.
+                            </p>
 
                         </div>
 
-                    </div>
+
+                    ) : error ? (
+
+
+                        /* =================================================
+                            ERROR STATE
+
+                            This appears if Django server/API
+                            cannot be reached.
+                        ================================================= */
+
+                        <div className="destination-empty">
+
+                            <MapPin size={35} />
+
+                            <h3>
+                                Unable to load destinations
+                            </h3>
+
+                            <p>
+                                {error}
+                            </p>
+
+                        </div>
+
+
+                    ) : (
+
+
+                        /* =================================================
+                            FILTER + DESTINATIONS
+                        ================================================= */
+
+                        <div className="destination-layout">
+
+
+                            {/* =============================================
+                                LEFT FILTER SIDEBAR
+                            ============================================== */}
+
+                            <aside className="destination-filter">
+
+                                <div className="filter-heading">
+
+                                    <span>
+                                        EXPLORE BY
+                                    </span>
+
+                                    <h3>
+                                        Location
+                                    </h3>
+
+                                </div>
+
+
+                                <div className="filter-list">
+
+                                    {states.map(
+                                        (state) => {
+
+                                            /* --------------------------------
+                                               Count destinations for state
+                                            -------------------------------- */
+
+                                            const count =
+                                                state === "All"
+                                                    ? destinations.length
+                                                    : destinations.filter(
+                                                        (
+                                                            destination
+                                                        ) =>
+                                                            destination.state ===
+                                                            state
+                                                    ).length;
+
+
+                                            return (
+
+                                                <button
+                                                    type="button"
+                                                    key={state}
+                                                    className={
+                                                        selectedState ===
+                                                        state
+                                                            ? "filter-button active"
+                                                            : "filter-button"
+                                                    }
+                                                    onClick={() =>
+                                                        setSelectedState(
+                                                            state
+                                                        )
+                                                    }
+                                                >
+
+                                                    <span className="filter-button-left">
+
+                                                        <MapPin
+                                                            size={15}
+                                                        />
+
+                                                        <span>
+                                                            {state}
+                                                        </span>
+
+                                                    </span>
+
+
+                                                    <span className="filter-count">
+                                                        {count}
+                                                    </span>
+
+                                                </button>
+
+                                            );
+
+                                        }
+                                    )}
+
+                                </div>
+
+
+                                {/* Current Selection */}
+
+                                <div className="filter-selected">
+
+                                    <span>
+                                        SELECTED LOCATION
+                                    </span>
+
+                                    <strong>
+
+                                        {selectedState ===
+                                        "All"
+                                            ? "All Destinations"
+                                            : selectedState}
+
+                                    </strong>
+
+                                </div>
+
+                            </aside>
+
+
+                            {/* =============================================
+                                DESTINATION CARDS
+                            ============================================== */}
+
+                            <div className="destination-results">
+
+
+                                {/* Results Header */}
+
+                                <div className="destination-results-header">
+
+                                    <span>
+
+                                        {filteredDestinations.length}{" "}
+
+                                        {
+                                            filteredDestinations.length ===
+                                            1
+                                                ? "Destination"
+                                                : "Destinations"
+                                        }
+
+                                    </span>
+
+
+                                    {selectedState !==
+                                        "All" && (
+
+                                        <button
+                                            type="button"
+                                            onClick={() =>
+                                                setSelectedState(
+                                                    "All"
+                                                )
+                                            }
+                                        >
+
+                                            View all
+
+                                            <ArrowUpRight
+                                                size={15}
+                                            />
+
+                                        </button>
+
+                                    )}
+
+                                </div>
+
+
+                                {/* =================================================
+                                    DESTINATION CARDS
+                                ================================================= */}
+
+                                <div className="destination-grid">
+
+                                    {filteredDestinations.map(
+                                        (
+                                            destination
+                                        ) => (
+
+                                            <article
+                                                className="destination-card"
+                                                key={
+                                                    destination.id
+                                                }
+                                            >
+
+
+                                                {/* =========================
+                                                    IMAGE
+                                                ========================= */}
+
+                                                <div className="destination-image">
+
+                                                    <img
+                                                        src={
+                                                            destination.image_url
+                                                        }
+                                                        alt={
+                                                            destination.name
+                                                        }
+                                                        loading="lazy"
+                                                    />
+
+
+                                                </div>
+
+
+                                                {/* =========================
+                                                    CONTENT
+                                                ========================= */}
+
+                                                <div className="destination-content">
+
+                                                    <span className="destination-state">
+
+                                                        <MapPin
+                                                            size={13}
+                                                        />
+
+                                                        {destination.city},{" "}
+
+                                                        {
+                                                            destination.state
+                                                        }
+
+                                                    </span>
+
+
+                                                    <h3>
+                                                        {
+                                                            destination.name
+                                                        }
+                                                    </h3>
+
+                                                </div>
+
+                                            </article>
+
+                                        )
+                                    )}
+
+                                </div>
+
+
+                                {/* =================================================
+                                    EMPTY STATE
+
+                                    Happens when selected state has
+                                    no destinations.
+                                ================================================= */}
+
+                                {filteredDestinations.length ===
+                                    0 && (
+
+                                    <div className="destination-empty">
+
+                                        <MapPin
+                                            size={35}
+                                        />
+
+                                        <h3>
+                                            No destinations found
+                                        </h3>
+
+                                        <p>
+                                            We don't currently
+                                            have destinations
+                                            listed for this state.
+                                        </p>
+
+                                        <button
+                                            type="button"
+                                            onClick={() =>
+                                                setSelectedState(
+                                                    "All"
+                                                )
+                                            }
+                                        >
+                                            View all destinations
+                                        </button>
+
+                                    </div>
+
+                                )}
+
+                            </div>
+
+                        </div>
+
+                    )}
 
                 </div>
 
@@ -629,14 +785,21 @@ const Destinations = () => {
                         <div className="custom-route-right">
 
                             <p>
-                                Your destination doesn't have to be
-                                on our list. Share your route and we'll
-                                help arrange the right car for your journey.
+                                Your destination doesn't
+                                have to be on our list.
+                                Share your route and we'll
+                                help arrange the right car
+                                for your journey.
                             </p>
 
                             <a href="#booking">
+
                                 Plan Custom Journey
-                                <ArrowUpRight size={18} />
+
+                                <ArrowUpRight
+                                    size={18}
+                                />
+
                             </a>
 
                         </div>
@@ -665,7 +828,9 @@ const Destinations = () => {
                         <h2>
                             One destination.
                             <br />
-                            <em>Different ways to get there.</em>
+                            <em>
+                                Different ways to get there.
+                            </em>
                         </h2>
 
                     </div>
@@ -673,43 +838,48 @@ const Destinations = () => {
 
                     <div className="journey-grid">
 
-                        {routeTypes.map((item, index) => {
+                        {routeTypes.map(
+                            (item, index) => {
 
-                            const Icon = item.icon;
+                                const Icon =
+                                    item.icon;
 
-                            return (
-                                <div
-                                    className="journey-card"
-                                    key={item.title}
-                                >
+                                return (
 
-                                    <div className="journey-icon">
+                                    <div
+                                        className="journey-card"
+                                        key={item.title}
+                                    >
 
-                                        <Icon
-                                            size={25}
-                                        />
+                                        <div className="journey-icon">
+
+                                            <Icon
+                                                size={25}
+                                            />
+
+                                        </div>
+
+
+                                        <span>
+                                            0{index + 1}
+                                        </span>
+
+
+                                        <h3>
+                                            {item.title}
+                                        </h3>
+
+
+                                        <p>
+                                            {item.text}
+                                        </p>
 
                                     </div>
 
+                                );
 
-                                    <span>
-                                        0{index + 1}
-                                    </span>
-
-
-                                    <h3>
-                                        {item.title}
-                                    </h3>
-
-
-                                    <p>
-                                        {item.text}
-                                    </p>
-
-                                </div>
-                            );
-
-                        })}
+                            }
+                        )}
 
                     </div>
 
@@ -742,15 +912,17 @@ const Destinations = () => {
                     </h2>
 
                     <p>
-                        Choose your destination and let us
-                        take care of the journey.
+                        Choose your destination and let
+                        us take care of the journey.
                     </p>
 
                     <a href="#booking">
 
                         Book Your Car
 
-                        <ArrowUpRight size={18} />
+                        <ArrowUpRight
+                            size={18}
+                        />
 
                     </a>
 

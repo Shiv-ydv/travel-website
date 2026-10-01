@@ -180,12 +180,12 @@ const Footer = () => {
                         </a>
 
 
-                        <a href="mailto:hello@wandertravel.com">
+                        <a href="mailto:dhanotravels@gmail.com">
 
                             <Mail size={16} />
 
                             <span>
-                                hello@wandertravel.com
+                                dhanotravels@gmail.com
                             </span>
 
                         </a>
@@ -196,11 +196,9 @@ const Footer = () => {
                             <MapPin size={16} />
 
                             <span>
-                                Main Road,
-                                <br />
-                                Ranchi, Jharkhand
-                                <br />
-                                India
+                               HB Road, Ayodhyapuri, Kokar <br />
+Ranchi, Jharkhand,
+India
                             </span>
 
                         </div>
@@ -220,7 +218,7 @@ const Footer = () => {
                 <div className="footer-container footer-bottom-inner">
 
                     <span>
-                        © {new Date().getFullYear()} Wander Travel Co.
+                        © {new Date().getFullYear()} Dhano Travel Co.
                         All rights reserved.
                     </span>
 

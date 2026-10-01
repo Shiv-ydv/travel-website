@@ -1,349 +1,581 @@
-/* =========================================
-   SERVICES
-========================================= */
+/* ============================================================
+   PREMIUM SERVICES SECTION
+============================================================ */
 
-.services-section {
-    padding: 135px 0;
-    background: #17231f;
-    color: #ffffff;
+.premium-services {
+    width: 100%;
+    padding: 90px 0 95px;
+    background: #ffffff;
+    overflow: hidden;
 }
 
-.services-container {
-    width: min(1280px, calc(100% - 70px));
-    margin: auto;
+.premium-services-container {
+    width: min(1380px, 92%);
+    margin: 0 auto;
 }
 
 
-/* =========================================
-   HEADING
-========================================= */
+/* ============================================================
+   HEADER
+============================================================ */
 
-.services-heading {
+.premium-services-header {
     display: flex;
-
     align-items: flex-end;
-
     justify-content: space-between;
-
     gap: 70px;
-
-    margin-bottom: 70px;
+    margin-bottom: 45px;
 }
 
-.services-title {
-    max-width: 800px;
+.premium-services-title {
+    max-width: 700px;
 }
 
-.services-label {
-    display: block;
+.premium-services-label {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
 
-    margin-bottom: 18px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2.2px;
 
-    color: #d5ad68;
-
-    font-size: 9px;
-
-    font-weight: 700;
-
-    letter-spacing: 3px;
+    color: #005bea;
 }
 
-.services-heading h2 {
-    margin: 0;
+.premium-services-label::before {
+    content: "";
+    width: 34px;
+    height: 3px;
 
-    font-family: "Playfair Display", serif;
+    border-radius: 20px;
 
-    font-size: clamp(44px, 5vw, 68px);
+    background: linear-gradient(
+        90deg,
+        #005bea 0%,
+        #00c6ff 35%,
+        #ff7800 75%,
+        #ffd200 100%
+    );
+}
 
-    line-height: 1.05;
+.premium-services-title h2 {
+    margin: 17px 0 0;
 
+    font-size: clamp(40px, 4vw, 61px);
+    line-height: 1.04;
+
+    font-weight: 750;
+    letter-spacing: -2.7px;
+
+    color: #111827;
+}
+
+.premium-services-title h2 em {
+    font-family: Georgia, "Times New Roman", serif;
     font-weight: 400;
+    font-style: italic;
 
-    letter-spacing: -2px;
+    background: linear-gradient(
+        90deg,
+        #005bea,
+        #00a8ff 35%,
+        #ff7600 75%,
+        #ffc400
+    );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
 
-.services-heading h2 em {
-    color: #d5ad68;
+.premium-services-intro {
+    width: 335px;
 
-    font-weight: 400;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+
+    padding-bottom: 5px;
 }
 
-.services-heading > p {
-    max-width: 330px;
+.premium-services-line {
+    width: 38px;
+    height: 3px;
 
+    margin-top: 8px;
+
+    flex-shrink: 0;
+
+    border-radius: 20px;
+
+    background: linear-gradient(
+        90deg,
+        #005bea,
+        #00c6ff,
+        #ff7800
+    );
+}
+
+.premium-services-intro p {
     margin: 0;
-
-    color: rgba(255, 255, 255, 0.62);
 
     font-size: 13px;
+    line-height: 1.75;
 
-    line-height: 1.8;
+    color: #667085;
 }
 
 
-/* =========================================
-   SERVICES LIST
-========================================= */
+/* ============================================================
+   SERVICES GRID
+============================================================ */
 
-.services-list {
-    border-top: 1px solid rgba(255, 255, 255, 0.15);
+.premium-services-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
 }
 
 
-/* =========================================
-   SERVICE ITEM
-========================================= */
+/* ============================================================
+   CARD
+============================================================ */
 
-.service-item {
+.premium-service-card {
     position: relative;
 
-    display: grid;
+    background: #ffffff;
 
-    grid-template-columns:
-        60px
-        70px
-        1fr
-        60px;
+    border: 1px solid #e7eaf0;
+    border-radius: 20px;
 
-    align-items: center;
+    overflow: hidden;
 
-    gap: 30px;
+    box-shadow:
+        0 5px 22px rgba(16, 24, 40, 0.035);
 
-    min-height: 155px;
-
-    padding: 20px 0;
-
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-
-    color: #ffffff;
-
-    text-decoration: none;
-
-    transition: 0.4s ease;
+    transition:
+        transform 0.4s ease,
+        box-shadow 0.4s ease,
+        border-color 0.4s ease;
 }
 
-.service-item::before {
+.premium-service-card::before {
     content: "";
 
     position: absolute;
-
+    top: 0;
     left: 0;
     right: 0;
-    top: 0;
-    bottom: 0;
 
-    background: rgba(255, 255, 255, 0.035);
+    height: 3px;
 
-    transform: scaleY(0);
+    opacity: 0;
 
-    transform-origin: bottom;
+    background: linear-gradient(
+        90deg,
+        #005bea 0%,
+        #00c6ff 32%,
+        #ff7900 72%,
+        #ffd200 100%
+    );
 
-    transition: transform 0.4s ease;
+    transition: opacity 0.3s ease;
 
-    z-index: 0;
+    z-index: 5;
 }
 
-.service-item:hover::before {
-    transform: scaleY(1);
+.premium-service-card:hover {
+    transform: translateY(-8px);
+
+    border-color: #dce2ea;
+
+    box-shadow:
+        0 24px 55px rgba(15, 43, 80, 0.11);
 }
 
-.service-item > * {
+.premium-service-card:hover::before {
+    opacity: 1;
+}
+
+
+/* ============================================================
+   IMAGE
+============================================================ */
+
+.premium-service-image {
     position: relative;
 
-    z-index: 1;
+    width: 100%;
+    height: 205px;
+
+    overflow: hidden;
+
+    background: #eef2f6;
+}
+
+.premium-service-image img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    transition:
+        transform 0.7s cubic-bezier(.2,.7,.2,1);
+}
+
+.premium-service-card:hover
+.premium-service-image img {
+    transform: scale(1.07);
 }
 
 
-/* =========================================
+/* ============================================================
+   IMAGE OVERLAY
+============================================================ */
+
+.premium-service-image-overlay {
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(0, 43, 110, 0.12) 0%,
+            transparent 45%,
+            rgba(0, 0, 0, 0.30) 100%
+        );
+}
+
+
+/* ============================================================
    NUMBER
-========================================= */
+============================================================ */
 
-.service-number {
-    color: rgba(255, 255, 255, 0.35);
+.premium-service-number {
+    position: absolute;
 
-    font-family: "DM Sans", sans-serif;
+    top: 15px;
+    left: 15px;
 
-    font-size: 11px;
+    min-width: 39px;
+    height: 30px;
 
-    font-weight: 500;
+    padding: 0 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(255,255,255,0.35);
+    border-radius: 30px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0, 91, 234, 0.92),
+            rgba(0, 198, 255, 0.82)
+        );
+
+    color: #ffffff;
+
+    font-size: 10px;
+    font-weight: 800;
 
     letter-spacing: 1px;
+
+    backdrop-filter: blur(10px);
+
+    box-shadow:
+        0 6px 18px rgba(0, 65, 180, 0.20);
 }
 
 
-/* =========================================
-   ICON
-========================================= */
+/* ============================================================
+   SERVICE ICON
+============================================================ */
 
-.service-icon {
-    width: 50px;
-    height: 50px;
+.premium-service-icon {
+    position: absolute;
+
+    right: 15px;
+    bottom: 15px;
+
+    width: 43px;
+    height: 43px;
 
     display: flex;
-
     align-items: center;
     justify-content: center;
 
-    border: 1px solid rgba(213, 173, 104, 0.5);
-
     border-radius: 50%;
 
-    color: #d5ad68;
+    background: rgba(255, 255, 255, 0.96);
 
-    transition: 0.4s ease;
+    color: #005bea;
+
+    box-shadow:
+        0 8px 22px rgba(0, 0, 0, 0.16);
+
+    transition:
+        transform 0.35s ease,
+        color 0.35s ease;
 }
 
-.service-item:hover .service-icon {
-    background: #d5ad68;
+.premium-service-card:hover
+.premium-service-icon {
+    transform: rotate(8deg) scale(1.06);
 
-    color: #17231f;
-
-    transform: rotate(-8deg);
+    color: #ff7600;
 }
 
 
-/* =========================================
+/* ============================================================
    CONTENT
-========================================= */
+============================================================ */
 
-.service-content h3 {
+.premium-service-content {
+    padding: 21px 21px 20px;
+}
+
+.premium-service-small-title {
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-size: 9px;
+    font-weight: 800;
+
+    letter-spacing: 1.7px;
+
+    color: #98a2b3;
+}
+
+.premium-service-content h3 {
     margin: 0 0 9px;
 
-    font-family: "Playfair Display", serif;
+    color: #172033;
 
-    font-size: 29px;
+    font-size: 20px;
+    line-height: 1.2;
 
-    font-weight: 400;
+    font-weight: 750;
 }
 
-.service-content p {
-    max-width: 570px;
-
+.premium-service-content p {
     margin: 0;
 
-    color: rgba(255, 255, 255, 0.55);
+    min-height: 63px;
 
-    font-size: 11px;
+    color: #667085;
 
-    line-height: 1.7;
+    font-size: 12px;
+    line-height: 1.68;
 }
 
 
-/* =========================================
-   ARROW
-========================================= */
+/* ============================================================
+   CARD BOTTOM
+============================================================ */
 
-.service-arrow {
-    width: 46px;
-    height: 46px;
-
+.premium-service-bottom {
     display: flex;
 
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
 
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    margin-top: 20px;
+    padding-top: 15px;
 
-    border-radius: 50%;
-
-    color: rgba(255, 255, 255, 0.65);
-
-    transition: 0.4s ease;
+    border-top: 1px solid #edf0f4;
 }
 
-.service-item:hover .service-arrow {
-    background: #ffffff;
 
-    color: #17231f;
+/* ============================================================
+   WHATSAPP BUTTON
+============================================================ */
 
-    border-color: #ffffff;
+.premium-whatsapp-btn {
+    border: 0;
+    background: transparent;
+
+    padding: 0;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    color: #1d2939;
+
+    font-family: inherit;
+
+    font-size: 11px;
+    font-weight: 750;
+
+    cursor: pointer;
+
+    transition:
+        color 0.25s ease,
+        gap 0.25s ease;
+}
+
+.premium-whatsapp-btn svg {
+    color: #20b858;
+
+    transition:
+        color 0.25s ease,
+        transform 0.25s ease;
+}
+
+.premium-whatsapp-btn:hover {
+    color: #159447;
+    gap: 10px;
+}
+
+.premium-whatsapp-btn:hover svg {
+    color: #25d366;
+    transform: scale(1.08);
+}
+
+
+/* ============================================================
+   ARROW
+============================================================ */
+
+.premium-service-arrow {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #e4e7ec;
+    border-radius: 50%;
+
+    color: #344054;
+
+    transition:
+        background 0.3s ease,
+        color 0.3s ease,
+        border-color 0.3s ease,
+        transform 0.3s ease;
+}
+
+.premium-service-card:hover
+.premium-service-arrow {
+    background: #005bea;
+    border-color: #005bea;
+
+    color: #ffffff;
 
     transform: rotate(45deg);
 }
 
 
-/* =========================================
+/* ============================================================
    TABLET
-========================================= */
+============================================================ */
 
-@media (max-width: 900px) {
+@media (max-width: 1150px) {
 
-    .services-section {
-        padding: 100px 0;
+    .premium-services-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
     }
 
-    .services-container {
-        width: calc(100% - 40px);
-    }
-
-    .services-heading {
-        flex-direction: column;
-
-        align-items: flex-start;
-
-        gap: 25px;
-    }
-
-    .services-heading > p {
-        max-width: 550px;
+    .premium-service-image {
+        height: 230px;
     }
 
 }
 
 
-/* =========================================
+/* ============================================================
+   TABLET / SMALL LAPTOP
+============================================================ */
+
+@media (max-width: 850px) {
+
+    .premium-services-header {
+        align-items: flex-start;
+        flex-direction: column;
+
+        gap: 24px;
+    }
+
+    .premium-services-intro {
+        width: 100%;
+        max-width: 500px;
+    }
+
+}
+
+
+/* ============================================================
    MOBILE
-========================================= */
+============================================================ */
 
-@media (max-width: 600px) {
+@media (max-width: 650px) {
 
-    .services-section {
-        padding: 80px 0;
+    .premium-services {
+        padding: 70px 0 75px;
     }
 
-    .services-container {
-        width: calc(100% - 30px);
+    .premium-services-container {
+        width: 90%;
     }
 
-    .services-heading {
-        margin-bottom: 45px;
+    .premium-services-title h2 {
+        font-size: 39px;
+        letter-spacing: -1.7px;
     }
 
-    .services-heading h2 {
-        font-size: 43px;
-
-        letter-spacing: -1px;
+    .premium-services-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
     }
 
-    .service-item {
-
-        grid-template-columns:
-            40px
-            50px
-            1fr
-            40px;
-
-        gap: 12px;
-
-        min-height: 145px;
+    .premium-service-image {
+        height: 220px;
     }
 
-    .service-icon {
-        width: 43px;
-        height: 43px;
+    .premium-service-content {
+        padding: 21px;
     }
 
-    .service-content h3 {
-        font-size: 21px;
+}
+
+
+/* ============================================================
+   SMALL MOBILE
+============================================================ */
+
+@media (max-width: 420px) {
+
+    .premium-services-title h2 {
+        font-size: 33px;
+        line-height: 1.08;
     }
 
-    .service-content p {
-        font-size: 10px;
+    .premium-service-image {
+        height: 200px;
     }
 
-    .service-arrow {
-        width: 35px;
-        height: 35px;
+    .premium-service-content h3 {
+        font-size: 19px;
+    }
+
+    .premium-service-content p {
+        font-size: 12px;
+    }
+
+    .premium-service-bottom {
+        margin-top: 17px;
     }
 
 }

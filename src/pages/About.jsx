@@ -101,18 +101,20 @@ const About = () => {
                             <em>effortless.</em>
                         </h2>
 
-                        <p>
-                            Wander Travel Co. is a professional car
-                            travel service created for people who value
-                            comfort, reliability and a smooth journey.
-                        </p>
+                      <p>
+    Dhano Travels is a trusted travel agency in Ranchi, Jharkhand, 
+    offering comfortable, reliable and hassle-free travel services 
+    for individuals, families and businesses.
+</p>
 
-                        <p>
-                            From airport transfers and local travel to
-                            outstation journeys and corporate transportation,
-                            we connect you with the right vehicle and
-                            professional driver for your needs.
-                        </p>
+<p>
+    From airport transfers and local sightseeing to outstation trips, 
+    car rentals, tour packages and corporate travel, Dhno Travels 
+    provides well-maintained vehicles, professional drivers and 
+    personalized travel solutions to make every journey smooth and 
+    memorable.
+</p>
+
 
                     </div>
 

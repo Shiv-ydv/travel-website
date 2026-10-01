@@ -1,116 +1,556 @@
-import { ArrowUpRight } from "lucide-react";
-import jonhaFall from "../assets/destination/jonhafall.jpg";
-import bodhGaya from "../assets/destination/bodhgaya.webp";
-import puriTemple from "../assets/destination/puritemple.jpg";
-import victoriaMemorial from "../assets/destination/Victoria.webp";
-import tajMahal from "../assets/destination/tajmahal.jpg";
-import "./Destinations.css";
+import { useEffect, useState } from "react";
+import {
+    ArrowUpRight,
+    MapPin,
+    Clock3,
+    Route,
+} from "lucide-react";
 
-const destinations = [
-  {
-    name: "Jonha Falls",
-    state: "Ranchi, Jharkhand",
-    image: jonhaFall,
-    large: true,
-  },
-  {
-    name: "Bodh Gaya",
-    state: "Bihar, India",
-    image: bodhGaya,
-  },
-  {
-    name: "Jagannath Puri Temple",
-    state: "Odisha, India",
-    image: puriTemple,
-  },
-  {
-    name: "Victoria Memorial",
-    state: "West Bengal, India",
-    image: victoriaMemorial,
-  },
-  {
-    name: "Taj Mahal",
-    state: "Agra, Uttar Pradesh",
-    image: tajMahal,
-  },
-];
+import "./Destinations.css";
+import api from "../services/api";
 
 const Destinations = () => {
-  return (
-    <section className="destinations-section" id="destinations">
-      <div className="destinations-container">
-        {/* Section Heading */}
-        <div className="destinations-heading">
-          <div>
-            <span className="section-label">DESTINATIONS</span>
 
-            <h2>
-              Places that make
-              <br />
-              you <em>feel alive.</em>
-            </h2>
-          </div>
+    /* =========================================================
+       DESTINATIONS
+    ========================================================= */
 
-          <div className="heading-side">
-            <p>
-              From hidden escapes to iconic landscapes, discover places worth
-              travelling across the world for.
-            </p>
+    const [destinations, setDestinations] = useState([]);
 
-            <a href="#all-destinations">
-              Explore all destinations
-              <ArrowUpRight size={17} />
-            </a>
-          </div>
-        </div>
+    const [loading, setLoading] = useState(true);
 
-        {/* Destination Grid */}
-        <div className="destination-grid">
-          {/* Large Card */}
-          <a href="#santorini" className="destination-card destination-large">
-            <img src={destinations[0].image} alt={destinations[0].name} />
+    const [error, setError] = useState("");
 
-            <div className="destination-overlay"></div>
+    /* Selected large image */
+    const [selectedDestination, setSelectedDestination] =
+        useState(null);
 
-            <div className="destination-content">
 
-              <h3>{destinations[0].name}</h3>
-              <p>{destinations[0].state}</p>
-              <div className="destination-arrow">
-                <ArrowUpRight size={20} />
-              </div>
-            </div>
-          </a>
+    /* =========================================================
+       FETCH DESTINATIONS
+    ========================================================= */
 
-          {/* Right Cards */}
-          <div className="destination-side">
-            {destinations.slice(1).map((destination, index) => (
-              <a
-                href={`#${destination.name.toLowerCase().replaceAll(" ", "-")}`}
-                className="destination-card"
-                key={destination.name}
-              >
-                <img src={destination.image} alt={destination.name} />
+    useEffect(() => {
 
-                <div className="destination-overlay"></div>
+        const fetchDestinations = async () => {
 
-                <div className="destination-content">
+            try {
 
-                  <h3>{destination.name}</h3>
+                setLoading(true);
+                setError("");
 
-                  <p>{destination.state}</p>
+                const response =
+                    await api.get("/destinations/");
 
-                  <div className="destination-arrow">
-                    <ArrowUpRight size={18} />
-                  </div>
+
+                const data =
+                    Array.isArray(response.data)
+                        ? response.data
+                        : response.data?.results || [];
+
+
+                /* Only active destinations */
+
+                const activeDestinations =
+                    data.filter(
+                        (destination) =>
+                            destination.status === true
+                    );
+
+
+                setDestinations(activeDestinations);
+
+
+                /* First destination as featured */
+
+                if (activeDestinations.length > 0) {
+
+                    setSelectedDestination(
+                        activeDestinations[0]
+                    );
+
+                }
+
+            } catch (err) {
+
+                console.error(
+                    "Destination API Error:",
+                    err
+                );
+
+                setError(
+                    "Unable to load destinations."
+                );
+
+            } finally {
+
+                setLoading(false);
+
+            }
+
+        };
+
+
+        fetchDestinations();
+
+    }, []);
+
+
+    /* =========================================================
+       IMAGE URL
+    ========================================================= */
+
+    const getImageUrl = (destination) => {
+
+        const image =
+            destination?.image_url ||
+            destination?.image;
+
+
+        if (!image) {
+            return "";
+        }
+
+
+        if (
+            image.startsWith("http://") ||
+            image.startsWith("https://")
+        ) {
+
+            return image;
+
+        }
+
+
+        return `http://127.0.0.1:8000${image}`;
+
+    };
+
+
+    /* =========================================================
+       SELECT DESTINATION
+    ========================================================= */
+
+    const handleDestinationClick = (destination) => {
+
+        setSelectedDestination(destination);
+
+        /* Smoothly move back to large image */
+
+        document
+            .querySelector(".destination-featured")
+            ?.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+            });
+
+    };
+
+
+    /* =========================================================
+       LOADING
+    ========================================================= */
+
+    if (loading) {
+
+        return (
+
+            <section className="destinations-section">
+
+                <div className="destinations-container">
+
+                    <div className="destinations-loading">
+
+                        <div className="destination-loader"></div>
+
+                        <p>
+                            Loading destinations...
+                        </p>
+
+                    </div>
+
                 </div>
-              </a>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
+
+            </section>
+
+        );
+
+    }
+
+
+    /* =========================================================
+       ERROR
+    ========================================================= */
+
+    if (error) {
+
+        return (
+
+            <section className="destinations-section">
+
+                <div className="destinations-container">
+
+                    <div className="destinations-error">
+
+                        <MapPin size={30} />
+
+                        <h3>
+                            Unable to load destinations
+                        </h3>
+
+                        <p>
+                            {error}
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        );
+
+    }
+
+
+    /* =========================================================
+       EMPTY
+    ========================================================= */
+
+    if (destinations.length === 0) {
+
+        return (
+
+            <section
+                className="destinations-section"
+                id="destinations"
+            >
+
+                <div className="destinations-container">
+
+                    <div className="destinations-empty">
+
+                        <MapPin size={30} />
+
+                        <h3>
+                            No destinations available
+                        </h3>
+
+                        <p>
+                            Destinations will appear here
+                            once they are added from the
+                            admin panel.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        );
+
+    }
+
+
+    /* =========================================================
+       MAIN
+    ========================================================= */
+
+    return (
+
+        <section
+            className="destinations-section"
+            id="destinations"
+        >
+
+            <div className="destinations-container">
+
+
+                {/* =================================================
+                   HEADER
+                ================================================= */}
+
+                <div className="destinations-header">
+
+                    <div className="destinations-heading">
+
+                        <span className="destinations-eyebrow">
+
+                            <i></i>
+
+                            DESTINATIONS
+
+                        </span>
+
+
+                        <h2>
+
+                            Places worth
+                            <br />
+
+                            <em>the journey.</em>
+
+                        </h2>
+
+                    </div>
+
+
+                    <div className="destinations-description">
+
+                        <span className="destination-heading-line"></span>
+
+                        <p>
+                            Discover beautiful places,
+                            memorable roads and experiences
+                            waiting to be explored.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                {/* =================================================
+                   LARGE FEATURED DESTINATION
+                ================================================= */}
+
+                {selectedDestination && (
+
+                    <div
+                        className="destination-featured"
+                        key={selectedDestination.id}
+                    >
+
+                        <img
+                            src={getImageUrl(
+                                selectedDestination
+                            )}
+                            alt={
+                                selectedDestination.name
+                            }
+                        />
+
+
+                        {/* IMAGE OVERLAY */}
+
+                        <div className="destination-featured-overlay"></div>
+
+
+                    
+
+                        {/* ARROW */}
+
+                        <div className="destination-featured-arrow">
+
+                            <ArrowUpRight size={23} />
+
+                        </div>
+
+
+                        {/* CONTENT */}
+
+                        <div className="destination-featured-content">
+
+                            <div className="destination-location">
+
+                                <MapPin size={15} />
+
+                                <span>
+
+                                    {
+                                        selectedDestination.city
+                                    }
+
+                                    {
+                                        selectedDestination.city &&
+                                        selectedDestination.state
+                                            ? ", "
+                                            : ""
+                                    }
+
+                                    {
+                                        selectedDestination.state
+                                    }
+
+                                </span>
+
+                            </div>
+
+
+                            <h3>
+
+                                {
+                                    selectedDestination.name
+                                }
+
+                            </h3>
+
+
+                            <div className="destination-meta">
+
+                                {
+                                    selectedDestination.distance && (
+
+                                        <span>
+
+                                            <Route size={13} />
+
+                                            {
+                                                selectedDestination.distance
+                                            }
+
+                                        </span>
+
+                                    )
+                                }
+
+
+                                {
+                                    selectedDestination.time && (
+
+                                        <span>
+
+                                            <Clock3 size={13} />
+
+                                            {
+                                                selectedDestination.time
+                                            }
+
+                                        </span>
+
+                                    )
+                                }
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                )}
+
+
+
+                {/* =================================================
+                   SMALL DESTINATION GALLERY
+                ================================================= */}
+
+                <div className="destination-gallery">
+
+                    {destinations.map(
+                        (destination) => {
+
+                            const isActive =
+                                selectedDestination?.id ===
+                                destination.id;
+
+
+                            return (
+
+                                <button
+                                    type="button"
+                                    key={destination.id}
+                                    className={
+                                        isActive
+                                            ? "destination-gallery-card active"
+                                            : "destination-gallery-card"
+                                    }
+                                    onClick={() =>
+                                        handleDestinationClick(
+                                            destination
+                                        )
+                                    }
+                                >
+
+                                    <div className="destination-gallery-image">
+
+                                        <img
+                                            src={getImageUrl(
+                                                destination
+                                            )}
+                                            alt={
+                                                destination.name
+                                            }
+                                            loading="lazy"
+                                        />
+
+
+                                        <div className="destination-gallery-overlay"></div>
+
+{/* 
+                                        <span className="destination-gallery-number">
+
+                                            {
+                                                destination.number
+                                            }
+
+                                        </span> */}
+
+
+                                        <span className="destination-gallery-arrow">
+
+                                            <ArrowUpRight
+                                                size={16}
+                                            />
+
+                                        </span>
+
+                                    </div>
+
+
+                                    <div className="destination-gallery-content">
+
+                                        <h4>
+
+                                            {
+                                                destination.name
+                                            }
+
+                                        </h4>
+
+
+                                        <p>
+
+                                            <MapPin
+                                                size={12}
+                                            />
+
+                                            {
+                                                destination.city
+                                            }
+
+                                            {
+                                                destination.city &&
+                                                destination.state
+                                                    ? ", "
+                                                    : ""
+                                            }
+
+                                            {
+                                                destination.state
+                                            }
+
+                                        </p>
+
+                                    </div>
+
+                                </button>
+
+                            );
+
+                        }
+                    )}
+
+                </div>
+
+            </div>
+
+        </section>
+
+    );
+
 };
 
 export default Destinations;

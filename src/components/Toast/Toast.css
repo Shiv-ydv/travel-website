@@ -1,0 +1,294 @@
+/* =========================================
+   DHNO TRAVELS - GLOBAL TOAST
+========================================= */
+
+.dhno-toast-wrapper {
+    position: fixed;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 99999;
+
+    width: min(440px, calc(100vw - 30px));
+
+    animation: dhnoToastIn 0.35s cubic-bezier(0.22, 1, 0.36, 1)
+        forwards;
+}
+
+.dhno-toast-wrapper.dhno-toast-closing {
+    animation: dhnoToastOut 0.25s ease forwards;
+}
+
+
+/* =========================================
+   TOAST BOX
+========================================= */
+
+.dhno-toast {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    min-height: 72px;
+
+    padding: 14px 16px;
+
+    border-radius: 16px;
+
+    background: rgba(255, 255, 255, 0.97);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    box-shadow:
+        0 18px 50px rgba(0, 0, 0, 0.14),
+        0 4px 14px rgba(0, 0, 0, 0.07);
+
+    overflow: hidden;
+
+    border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+
+/* =========================================
+   SUCCESS
+========================================= */
+
+.dhno-toast-success {
+    border-left: 4px solid #22a06b;
+}
+
+.dhno-toast-success .dhno-toast-icon {
+    color: #168b59;
+    background: rgba(34, 160, 107, 0.12);
+}
+
+
+/* =========================================
+   DANGER
+========================================= */
+
+.dhno-toast-danger {
+    border-left: 4px solid #e5484d;
+}
+
+.dhno-toast-danger .dhno-toast-icon {
+    color: #d9363e;
+    background: rgba(229, 72, 77, 0.11);
+}
+
+
+/* =========================================
+   ICON
+========================================= */
+
+.dhno-toast-icon {
+    width: 40px;
+    height: 40px;
+
+    min-width: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 12px;
+
+    margin-right: 12px;
+}
+
+
+/* =========================================
+   CONTENT
+========================================= */
+
+.dhno-toast-content {
+    flex: 1;
+
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 2px;
+}
+
+.dhno-toast-title {
+    font-family: "Nunito", sans-serif;
+
+    font-size: 13px;
+    font-weight: 800;
+
+    letter-spacing: 0.2px;
+
+    color: #17231f;
+}
+
+.dhno-toast-message {
+    font-family: "Nunito", sans-serif;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    color: #68736f;
+
+    line-height: 1.4;
+
+    word-break: break-word;
+}
+
+
+/* =========================================
+   CLOSE BUTTON
+========================================= */
+
+.dhno-toast-close {
+    width: 32px;
+    height: 32px;
+
+    min-width: 32px;
+
+    border: 0;
+    outline: none;
+
+    background: transparent;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 9px;
+
+    color: #87908c;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.dhno-toast-close:hover {
+    background: #f1f3f1;
+    color: #17231f;
+
+    transform: rotate(90deg);
+}
+
+
+/* =========================================
+   TIMER BAR
+========================================= */
+
+.dhno-toast-progress {
+    position: absolute;
+
+    left: 0;
+    bottom: 0;
+
+    height: 3px;
+    width: 100%;
+
+    transform-origin: left;
+
+    animation-name: dhnoToastProgress;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+
+.dhno-toast-success .dhno-toast-progress {
+    background: #22a06b;
+}
+
+.dhno-toast-danger .dhno-toast-progress {
+    background: #e5484d;
+}
+
+
+/* =========================================
+   ANIMATIONS
+========================================= */
+
+@keyframes dhnoToastIn {
+    0% {
+        opacity: 0;
+        transform:
+            translate(-50%, -25px)
+            scale(0.94);
+    }
+
+    100% {
+        opacity: 1;
+        transform:
+            translate(-50%, 0)
+            scale(1);
+    }
+}
+
+
+@keyframes dhnoToastOut {
+    0% {
+        opacity: 1;
+        transform:
+            translate(-50%, 0)
+            scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform:
+            translate(-50%, -15px)
+            scale(0.96);
+    }
+}
+
+
+@keyframes dhnoToastProgress {
+    from {
+        transform: scaleX(1);
+    }
+
+    to {
+        transform: scaleX(0);
+    }
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+    .dhno-toast-wrapper {
+        top: 15px;
+
+        width: calc(100vw - 24px);
+    }
+
+    .dhno-toast {
+        min-height: 68px;
+
+        padding: 12px 13px;
+
+        border-radius: 14px;
+    }
+
+    .dhno-toast-icon {
+        width: 36px;
+        height: 36px;
+        min-width: 36px;
+
+        margin-right: 10px;
+    }
+
+    .dhno-toast-message {
+        font-size: 12px;
+    }
+
+    .dhno-toast-title {
+        font-size: 12px;
+    }
+}

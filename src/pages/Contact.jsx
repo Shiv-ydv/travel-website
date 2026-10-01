@@ -1,7 +1,9 @@
+import { useState } from "react";
+
 import {
     ArrowUpRight,
-    MapPin,
     Phone,
+    MapPin,
     Mail,
     Clock3,
     MessageCircle,
@@ -9,23 +11,274 @@ import {
 
 import "./Contact.css";
 
+// ============================================================
+// API SERVICE
+// Connects this page with Django REST API
+// ============================================================
+
+import api from "../services/api";
+
+
+// ============================================================
+// TOAST SYSTEM
+// Uses the same global toast system used in Admin Dashboard
+// ============================================================
+
+import { useToast } from "../context/ToastContext";
+
+
+// ============================================================
+// CONTACT COMPONENT
+// ============================================================
+
 const Contact = () => {
+
+    // ========================================================
+    // GLOBAL TOAST
+    // ========================================================
+
+    const { showToast } = useToast();
+
+
+    // ========================================================
+    // CONTACT FORM STATE
+    // ========================================================
+
+    const [formData, setFormData] = useState({
+        name: "",
+        phone: "",
+        email: "",
+        service: "",
+        pickup: "",
+        destination: "",
+        message: "",
+    });
+
+
+    // ========================================================
+    // SUBMITTING STATE
+    // Used to disable button while API request is running
+    // ========================================================
+
+    const [submitting, setSubmitting] = useState(false);
+
+
+    // ========================================================
+    // HANDLE INPUT CHANGE
+    // Works for input, select and textarea
+    // ========================================================
+
+    const handleChange = (e) => {
+
+        const {
+            name,
+            value,
+        } = e.target;
+
+
+        setFormData((previous) => ({
+            ...previous,
+            [name]: value,
+        }));
+    };
+
+
+    // ========================================================
+    // HANDLE FORM SUBMIT
+    // Sends enquiry data to Django
+    // ========================================================
+
+    const handleSubmit = async (e) => {
+
+        // Prevent browser page refresh
+        e.preventDefault();
+
+
+        // ----------------------------------------------------
+        // BASIC FRONTEND VALIDATION
+        // ----------------------------------------------------
+
+        if (!formData.name.trim()) {
+
+            showToast(
+                "Please enter your name.",
+                "danger"
+            );
+
+            return;
+        }
+
+
+        if (!formData.phone.trim()) {
+
+            showToast(
+                "Please enter your phone number.",
+                "danger"
+            );
+
+            return;
+        }
+
+
+        if (!formData.service) {
+
+            showToast(
+                "Please select a service.",
+                "danger"
+            );
+
+            return;
+        }
+
+
+        try {
+
+            // ------------------------------------------------
+            // START SUBMITTING
+            // ------------------------------------------------
+
+            setSubmitting(true);
+
+
+            // ------------------------------------------------
+            // SEND DATA TO DJANGO
+            //
+            // POST:
+            // /api/enquiries/
+            // ------------------------------------------------
+
+            await api.post(
+                "/enquiries/",
+                formData
+            );
+
+
+            // ------------------------------------------------
+            // SUCCESS TOAST
+            // ------------------------------------------------
+
+            showToast(
+                "Your enquiry has been submitted successfully. Our team will contact you shortly.",
+                "success"
+            );
+
+
+            // ------------------------------------------------
+            // RESET FORM
+            // ------------------------------------------------
+
+            setFormData({
+                name: "",
+                phone: "",
+                email: "",
+                service: "",
+                pickup: "",
+                destination: "",
+                message: "",
+            });
+
+
+        } catch (error) {
+
+            // ------------------------------------------------
+            // LOG ERROR
+            // ------------------------------------------------
+
+            console.error(
+                "Enquiry submission failed:",
+                error
+            );
+
+
+            // ------------------------------------------------
+            // SHOW BACKEND ERROR IN CONSOLE
+            // Useful during development
+            // ------------------------------------------------
+
+            if (error.response?.data) {
+
+                console.error(
+                    "Backend response:",
+                    error.response.data
+                );
+            }
+
+
+            // ------------------------------------------------
+            // ERROR TOAST
+            // ------------------------------------------------
+
+            showToast(
+                "Unable to submit your enquiry. Please try again.",
+                "danger"
+            );
+
+
+        } finally {
+
+            // ------------------------------------------------
+            // STOP SUBMITTING
+            // ------------------------------------------------
+
+            setSubmitting(false);
+        }
+    };
+
+
+    // ========================================================
+    // PAGE UI
+    // ========================================================
+
     return (
-        <main className="contact-page">
 
-            {/* =================================
+        <main className="travel-contact-page">
+
+
+            {/* =====================================================
                 HERO
-            ================================= */}
-            <section className="contact-hero">
+            ===================================================== */}
 
-                <div className="contact-hero-bg"></div>
-                <div className="contact-hero-overlay"></div>
+            <section className="travel-contact-hero">
 
-                <div className="contact-hero-content">
 
-                    <span className="contact-eyebrow">
+                {/* VIDEO BACKGROUND */}
+
+                <div className="travel-contact-hero-video">
+
+                    <video
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        preload="metadata"
+                        poster="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2200&q=85"
+                    >
+
+                        <source
+                            src="https://cdn.coverr.co/videos/coverr-a-car-driving-on-a-coastal-road-1577/1080p.mp4"
+                            type="video/mp4"
+                        />
+
+                    </video>
+
+                </div>
+
+
+                {/* HERO OVERLAY */}
+
+                <div className="travel-contact-hero-overlay"></div>
+
+
+                {/* HERO CONTENT */}
+
+                <div className="travel-contact-hero-content">
+
+                    <div className="travel-contact-hero-line"></div>
+
+                    <span className="travel-contact-eyebrow">
                         GET IN TOUCH
                     </span>
+
 
                     <h1>
                         Let's plan your
@@ -33,28 +286,78 @@ const Contact = () => {
                         <em>next journey.</em>
                     </h1>
 
+
                     <p>
-                        Have a question, need a car or planning an
-                        outstation journey? Our team is ready to help.
+                        Have a question, need a car or planning
+                        an outstation journey? Our travel team
+                        is ready to help you make every mile
+                        effortless.
                     </p>
+
+
+                    <div className="travel-contact-hero-actions">
+
+                        <a
+                            href="#contact-form"
+                            className="travel-contact-hero-button"
+                        >
+
+                            Start a Conversation
+
+                            <ArrowUpRight
+                                size={17}
+                            />
+
+                        </a>
+
+
+                        <a
+                            href="tel:+917870787208"
+                            className="travel-contact-hero-call"
+                        >
+
+                            <Phone size={15} />
+
+                            +91 78707 87208
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                {/* HERO BOTTOM */}
+
+                <div className="travel-contact-hero-bottom">
+
+                    <span>
+                        RANCHI · JHARKHAND · INDIA
+                    </span>
+
+                    <span>
+                        TRAVEL MADE PERSONAL
+                    </span>
 
                 </div>
 
             </section>
 
 
-            {/* =================================
-                CONTACT INFORMATION
-            ================================= */}
-            <section className="contact-main">
+            {/* =====================================================
+                CONTACT INTRO
+            ===================================================== */}
 
-                <div className="contact-container">
+            <section className="travel-contact-intro">
 
-                    <div className="contact-heading">
+                <div className="travel-contact-container">
 
-                        <span>
+                    <div className="travel-contact-intro-heading">
+
+                        <span className="travel-contact-section-label">
                             CONTACT US
                         </span>
+
 
                         <h2>
                             We're here to
@@ -62,131 +365,244 @@ const Contact = () => {
                             <em>help you.</em>
                         </h2>
 
+                    </div>
+
+
+                    <div className="travel-contact-intro-copy">
+
+                        <div className="travel-contact-copy-line"></div>
+
                         <p>
-                            Get in touch with us for bookings,
-                            enquiries, airport transfers, outstation
-                            trips or any other travel requirements.
+                            Whether you're planning an airport
+                            transfer, an outstation journey, a
+                            family holiday or corporate travel,
+                            tell us what you need and we'll help
+                            you arrange the details.
                         </p>
 
                     </div>
 
+                </div>
 
-                    <div className="contact-info-grid">
+            </section>
 
-                        {/* Address */}
-                        <div className="contact-info-card">
 
-                            <div className="contact-info-icon">
-                                <MapPin size={22} />
+            {/* =====================================================
+                CONTACT INFORMATION
+            ===================================================== */}
+
+            <section className="travel-contact-info">
+
+                <div className="travel-contact-container">
+
+                    <div className="travel-contact-info-grid">
+
+
+                        {/* =================================================
+                            ADDRESS
+                        ================================================= */}
+
+                        <div className="travel-contact-info-card">
+
+                            <div className="travel-contact-info-top">
+
+                                <span>
+                                    01
+                                </span>
+
+                                <div className="travel-contact-info-icon">
+
+                                    <MapPin size={20} />
+
+                                </div>
+
                             </div>
 
-                            <span>
+
+                            <span className="travel-contact-info-label">
                                 VISIT US
                             </span>
+
 
                             <h3>
                                 Our Office
                             </h3>
 
+
                             <p>
-                                Main Road,
+                                HB Road, Ayodhyapuri, Kokar
                                 <br />
                                 Ranchi, Jharkhand,
                                 <br />
                                 India
                             </p>
 
+
                             <a
-                                href="https://www.google.com/maps"
+                                href="https://maps.app.goo.gl/7Z2gZdA1ByccLxsJA"
                                 target="_blank"
                                 rel="noreferrer"
                             >
+
                                 Get Directions
-                                <ArrowUpRight size={15} />
+
+                                <ArrowUpRight
+                                    size={15}
+                                />
+
                             </a>
 
                         </div>
 
 
-                        {/* Phone */}
-                        <div className="contact-info-card">
+                        {/* =================================================
+                            PHONE
+                        ================================================= */}
 
-                            <div className="contact-info-icon">
-                                <Phone size={22} />
+                        <div className="travel-contact-info-card">
+
+                            <div className="travel-contact-info-top">
+
+                                <span>
+                                    02
+                                </span>
+
+                                <div className="travel-contact-info-icon">
+
+                                    <Phone size={20} />
+
+                                </div>
+
                             </div>
 
-                            <span>
+
+                            <span className="travel-contact-info-label">
                                 CALL US
                             </span>
 
+
                             <h3>
-                                +91 12345 67890
+                                +91 78707 87208
                             </h3>
+
 
                             <p>
                                 Available for bookings,
+                                <br />
                                 enquiries and travel assistance.
                             </p>
 
-                            <a href="tel:+911234567890">
+
+                            <a href="tel:+917870787208">
+
                                 Call Now
-                                <ArrowUpRight size={15} />
+
+                                <ArrowUpRight
+                                    size={15}
+                                />
+
                             </a>
 
                         </div>
 
 
-                        {/* Email */}
-                        <div className="contact-info-card">
+                        {/* =================================================
+                            EMAIL
+                        ================================================= */}
 
-                            <div className="contact-info-icon">
-                                <Mail size={22} />
+                        <div className="travel-contact-info-card">
+
+                            <div className="travel-contact-info-top">
+
+                                <span>
+                                    03
+                                </span>
+
+                                <div className="travel-contact-info-icon">
+
+                                    <Mail size={20} />
+
+                                </div>
+
                             </div>
 
-                            <span>
+
+                            <span className="travel-contact-info-label">
                                 EMAIL US
                             </span>
 
-                            <h3>
-                                hello@wandertravel.com
+
+                            <h3 className="travel-contact-email">
+                                dhanotravels@gmail.com
                             </h3>
+
 
                             <p>
                                 Send us your travel requirements
+                                <br />
                                 and we'll get back to you.
                             </p>
 
-                            <a href="mailto:hello@wandertravel.com">
+
+                            <a href="mailto:dhanotravels@gmail.com">
+
                                 Send Email
-                                <ArrowUpRight size={15} />
+
+                                <ArrowUpRight
+                                    size={15}
+                                />
+
                             </a>
 
                         </div>
 
 
-                        {/* Hours */}
-                        <div className="contact-info-card">
+                        {/* =================================================
+                            SUPPORT
+                        ================================================= */}
 
-                            <div className="contact-info-icon">
-                                <Clock3 size={22} />
+                        <div className="travel-contact-info-card">
+
+                            <div className="travel-contact-info-top">
+
+                                <span>
+                                    04
+                                </span>
+
+                                <div className="travel-contact-info-icon">
+
+                                    <Clock3 size={20} />
+
+                                </div>
+
                             </div>
 
-                            <span>
+
+                            <span className="travel-contact-info-label">
                                 SUPPORT
                             </span>
+
 
                             <h3>
                                 24 / 7
                             </h3>
 
+
                             <p>
                                 Our support team is available
+                                <br />
                                 around the clock for assistance.
                             </p>
 
-                            <a href="tel:+911234567890">
+
+                            <a href="tel:+917870787208">
+
                                 Get Support
-                                <ArrowUpRight size={15} />
+
+                                <ArrowUpRight
+                                    size={15}
+                                />
+
                             </a>
 
                         </div>
@@ -198,21 +614,30 @@ const Contact = () => {
             </section>
 
 
-            {/* =================================
+            {/* =====================================================
                 FORM + MAP
-            ================================= */}
-            <section className="contact-form-section">
+            ===================================================== */}
 
-                <div className="contact-container">
+            <section
+                className="travel-contact-form-section"
+                id="contact-form"
+            >
 
-                    <div className="contact-form-grid">
+                <div className="travel-contact-container">
 
-                        {/* FORM */}
-                        <div className="contact-form-wrapper">
+                    <div className="travel-contact-form-grid">
 
-                            <span className="contact-form-label">
+
+                        {/* =================================================
+                            FORM
+                        ================================================= */}
+
+                        <div className="travel-contact-form-wrapper">
+
+                            <span className="travel-contact-form-label">
                                 SEND AN ENQUIRY
                             </span>
+
 
                             <h2>
                                 Tell us about
@@ -220,39 +645,76 @@ const Contact = () => {
                                 <em>your journey.</em>
                             </h2>
 
-                            <p>
-                                Fill in the details below and our team
-                                will contact you shortly.
+
+                            <p className="travel-contact-form-intro">
+                                Share a few details about your trip
+                                and our team will get in touch with
+                                you shortly.
                             </p>
 
 
-                            <form className="contact-form">
+                            {/* =================================================
+                                CONTACT FORM
+                            ================================================= */}
 
-                                <div className="form-row">
+                            <form
+                                className="travel-contact-form"
+                                onSubmit={handleSubmit}
+                            >
 
-                                    <div className="form-group">
+
+                                {/* =================================================
+                                    NAME + PHONE
+                                ================================================= */}
+
+                                <div className="travel-contact-form-row">
+
+
+                                    {/* NAME */}
+
+                                    <div className="travel-contact-form-group">
 
                                         <label>
-                                            Your Name
+                                            YOUR NAME
                                         </label>
+
 
                                         <input
                                             type="text"
+                                            name="name"
                                             placeholder="Enter your name"
+                                            value={
+                                                formData.name
+                                            }
+                                            onChange={
+                                                handleChange
+                                            }
+                                            required
                                         />
 
                                     </div>
 
 
-                                    <div className="form-group">
+                                    {/* PHONE */}
+
+                                    <div className="travel-contact-form-group">
 
                                         <label>
-                                            Phone Number
+                                            PHONE NUMBER
                                         </label>
+
 
                                         <input
                                             type="tel"
+                                            name="phone"
                                             placeholder="+91 XXXXX XXXXX"
+                                            value={
+                                                formData.phone
+                                            }
+                                            onChange={
+                                                handleChange
+                                            }
+                                            required
                                         />
 
                                     </div>
@@ -260,52 +722,99 @@ const Contact = () => {
                                 </div>
 
 
-                                <div className="form-row">
+                                {/* =================================================
+                                    EMAIL + SERVICE
+                                ================================================= */}
 
-                                    <div className="form-group">
+                                <div className="travel-contact-form-row">
+
+
+                                    {/* EMAIL */}
+
+                                    <div className="travel-contact-form-group">
 
                                         <label>
-                                            Email Address
+                                            EMAIL ADDRESS
                                         </label>
+
 
                                         <input
                                             type="email"
+                                            name="email"
                                             placeholder="you@example.com"
+                                            value={
+                                                formData.email
+                                            }
+                                            onChange={
+                                                handleChange
+                                            }
                                         />
 
                                     </div>
 
 
-                                    <div className="form-group">
+                                    {/* SERVICE */}
+
+                                    <div className="travel-contact-form-group">
 
                                         <label>
-                                            Service
+                                            SERVICE
                                         </label>
 
-                                        <select defaultValue="">
-                                            <option value="" disabled>
+
+                                        <select
+                                            name="service"
+                                            value={
+                                                formData.service
+                                            }
+                                            onChange={
+                                                handleChange
+                                            }
+                                            required
+                                        >
+
+                                            <option
+                                                value=""
+                                                disabled
+                                            >
                                                 Select a service
                                             </option>
 
-                                            <option>
+
+                                            <option value="Holiday Package">
+                                                Holiday Package
+                                            </option>
+
+
+                                            <option value="Hotel Booking">
+                                                Hotel Booking
+                                            </option>
+
+
+                                            <option value="Flight Booking">
+                                                Flight Booking
+                                            </option>
+
+
+                                            <option value="Airport Transfer">
                                                 Airport Transfer
                                             </option>
 
-                                            <option>
+
+                                            <option value="Outstation Trip">
                                                 Outstation Trip
                                             </option>
 
-                                            <option>
+
+                                            <option value="Local Car Rental">
                                                 Local Car Rental
                                             </option>
 
-                                            <option>
+
+                                            <option value="Corporate Travel">
                                                 Corporate Travel
                                             </option>
 
-                                            <option>
-                                                Wedding & Event
-                                            </option>
                                         </select>
 
                                     </div>
@@ -313,31 +822,56 @@ const Contact = () => {
                                 </div>
 
 
-                                <div className="form-row">
+                                {/* =================================================
+                                    PICKUP + DESTINATION
+                                ================================================= */}
 
-                                    <div className="form-group">
+                                <div className="travel-contact-form-row">
+
+
+                                    {/* PICKUP */}
+
+                                    <div className="travel-contact-form-group">
 
                                         <label>
-                                            Pickup Location
+                                            PICKUP LOCATION
                                         </label>
+
 
                                         <input
                                             type="text"
-                                            placeholder="Enter pickup location"
+                                            name="pickup"
+                                            placeholder="Where will you start?"
+                                            value={
+                                                formData.pickup
+                                            }
+                                            onChange={
+                                                handleChange
+                                            }
                                         />
 
                                     </div>
 
 
-                                    <div className="form-group">
+                                    {/* DESTINATION */}
+
+                                    <div className="travel-contact-form-group">
 
                                         <label>
-                                            Destination
+                                            DESTINATION
                                         </label>
+
 
                                         <input
                                             type="text"
+                                            name="destination"
                                             placeholder="Where are you going?"
+                                            value={
+                                                formData.destination
+                                            }
+                                            onChange={
+                                                handleChange
+                                            }
                                         />
 
                                     </div>
@@ -345,26 +879,53 @@ const Contact = () => {
                                 </div>
 
 
-                                <div className="form-group">
+                                {/* =================================================
+                                    MESSAGE
+                                ================================================= */}
+
+                                <div className="travel-contact-form-group">
 
                                     <label>
-                                        Message
+                                        MESSAGE
                                     </label>
 
+
                                     <textarea
+                                        name="message"
                                         rows="5"
                                         placeholder="Tell us about your journey..."
+                                        value={
+                                            formData.message
+                                        }
+                                        onChange={
+                                            handleChange
+                                        }
                                     ></textarea>
 
                                 </div>
 
 
+                                {/* =================================================
+                                    SUBMIT BUTTON
+                                ================================================= */}
+
                                 <button
                                     type="submit"
-                                    className="contact-submit"
+                                    className="travel-contact-submit"
+                                    disabled={submitting}
                                 >
-                                    Send Enquiry
-                                    <ArrowUpRight size={18} />
+
+                                    {submitting
+                                        ? "Sending..."
+                                        : "Send Enquiry"}
+
+
+                                    {!submitting && (
+                                        <ArrowUpRight
+                                            size={18}
+                                        />
+                                    )}
+
                                 </button>
 
                             </form>
@@ -372,10 +933,13 @@ const Contact = () => {
                         </div>
 
 
-                        {/* MAP */}
-                        <div className="contact-map-wrapper">
+                        {/* =================================================
+                            MAP
+                        ================================================= */}
 
-                            <div className="contact-map-header">
+                        <div className="travel-contact-map-wrapper">
+
+                            <div className="travel-contact-map-header">
 
                                 <div>
 
@@ -389,16 +953,21 @@ const Contact = () => {
 
                                 </div>
 
-                                <MapPin size={22} />
+
+                                <div className="travel-contact-map-icon">
+
+                                    <MapPin size={20} />
+
+                                </div>
 
                             </div>
 
 
-                            <div className="contact-map">
+                            <div className="travel-contact-map">
 
                                 <iframe
-                                    title="Wander Travel Office Location"
-                                    src="https://www.google.com/maps?q=Main+Road,+Ranchi,+Jharkhand,+India&output=embed"
+                                    title="Dhano Travels Office Location"
+                                    src="https://www.google.com/maps?q=HB+Road,+Kokar,+Ranchi,+Jharkhand,+India&output=embed"
                                     loading="lazy"
                                     allowFullScreen
                                 ></iframe>
@@ -406,22 +975,47 @@ const Contact = () => {
                             </div>
 
 
-                            <div className="contact-map-address">
+                            <div className="travel-contact-map-address">
 
-                                <MapPin size={17} />
+                                <div className="travel-contact-address-icon">
+
+                                    <MapPin size={17} />
+
+                                </div>
+
 
                                 <div>
+
                                     <strong>
-                                        Wander Travel Co.
+                                        Dhano Travels Co.
                                     </strong>
 
+
                                     <span>
-                                        Main Road, Ranchi,
+                                        HB Road, Ayodhyapuri,
+                                        Kokar Ranchi,
                                         Jharkhand, India
                                     </span>
+
                                 </div>
 
                             </div>
+
+
+                            <a
+                                href="https://www.google.com/maps?q=Main+Road,+Ranchi,+Jharkhand,+India"
+                                target="_blank"
+                                rel="noreferrer"
+                                className="travel-contact-map-button"
+                            >
+
+                                Open in Google Maps
+
+                                <ArrowUpRight
+                                    size={16}
+                                />
+
+                            </a>
 
                         </div>
 
@@ -432,20 +1026,26 @@ const Contact = () => {
             </section>
 
 
-            {/* =================================
+            {/* =====================================================
                 QUICK CONTACT
-            ================================= */}
-            <section className="contact-quick">
+            ===================================================== */}
 
-                <div className="contact-container">
+            <section className="travel-contact-quick">
 
-                    <div className="contact-quick-inner">
+                <div className="travel-contact-container">
 
-                        <div className="contact-quick-icon">
-                            <MessageCircle size={27} />
+                    <div className="travel-contact-quick-inner">
+
+                        <div className="travel-contact-quick-icon">
+
+                            <MessageCircle
+                                size={25}
+                            />
+
                         </div>
 
-                        <div>
+
+                        <div className="travel-contact-quick-content">
 
                             <span>
                                 NEED AN IMMEDIATE RESPONSE?
@@ -457,9 +1057,16 @@ const Contact = () => {
 
                         </div>
 
-                        <a href="tel:+917870787208">
+
+                        <a
+                            href="tel:+917870787208"
+                            className="travel-contact-quick-button"
+                        >
+
                             Call Us
-                            <Phone size={17} />
+
+                            <Phone size={16} />
+
                         </a>
 
                     </div>
@@ -469,29 +1076,39 @@ const Contact = () => {
             </section>
 
 
-            {/* =================================
-                CTA
-            ================================= */}
-            <section className="contact-cta">
+            {/* =====================================================
+                FINAL CTA
+            ===================================================== */}
 
-                <div className="contact-cta-bg"></div>
-                <div className="contact-cta-overlay"></div>
+            <section className="travel-contact-final">
 
-                <div className="contact-cta-content">
+                <div className="travel-contact-final-bg"></div>
+
+                <div className="travel-contact-final-overlay"></div>
+
+
+                <div className="travel-contact-final-content">
 
                     <span>
                         READY TO TRAVEL?
                     </span>
 
+
                     <h2>
                         Your next journey
                         <br />
-                        starts here.
+                        starts <em>here.</em>
                     </h2>
 
+
                     <a href="/booking">
-                        Book Your Car
-                        <ArrowUpRight size={18} />
+
+                        Plan Your Journey
+
+                        <ArrowUpRight
+                            size={18}
+                        />
+
                     </a>
 
                 </div>
@@ -501,5 +1118,6 @@ const Contact = () => {
         </main>
     );
 };
+
 
 export default Contact;
